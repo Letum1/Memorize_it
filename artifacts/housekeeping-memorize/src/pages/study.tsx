@@ -44,29 +44,38 @@ export default function Study() {
   const currentQuestion = items[currentIndex];
   const progress = ((currentIndex) / items.length) * 100;
 
+  const finishSession = (finalCorrect: number) => {
+    sessionStorage.setItem('lastSessionScore', JSON.stringify({
+      correct: finalCorrect,
+      total: items.length
+    }));
+    setLocation('/results');
+  };
+
   const handleAnswer = (isCorrect: boolean) => {
     recordAnswer(currentQuestion.id, isCorrect);
     setFeedback(isCorrect ? 'correct' : 'wrong');
-    if (isCorrect) setSessionCorrect(prev => prev + 1);
 
+    const newCorrect = sessionCorrect + (isCorrect ? 1 : 0);
     if (isCorrect) {
+      setSessionCorrect(newCorrect);
+      const isLast = currentIndex + 1 >= items.length;
       setTimeout(() => {
-        advance();
+        if (isLast) {
+          finishSession(newCorrect);
+        } else {
+          setFeedback('idle');
+          setCurrentIndex(prev => prev + 1);
+        }
       }, 1000);
     }
   };
 
   const advance = () => {
-    setFeedback('idle');
     if (currentIndex + 1 >= items.length) {
-      const finalCorrect = sessionCorrect + (feedback === 'correct' ? 1 : 0);
-      // Save results
-      sessionStorage.setItem('lastSessionScore', JSON.stringify({
-        correct: finalCorrect,
-        total: items.length
-      }));
-      setLocation('/results');
+      finishSession(sessionCorrect);
     } else {
+      setFeedback('idle');
       setCurrentIndex(prev => prev + 1);
     }
   };
