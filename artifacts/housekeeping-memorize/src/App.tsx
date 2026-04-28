@@ -11,6 +11,8 @@ import BrainDump from "@/pages/brain-dump";
 import TeachIt from "@/pages/teach-it";
 import Mnemonic from "@/pages/mnemonic";
 import Match from "@/pages/match";
+import DailyDrill from "@/pages/daily-drill";
+import SpeedRound from "@/pages/speed-round";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +26,8 @@ function Router() {
       <Route path="/teach-it" component={TeachIt} />
       <Route path="/mnemonic" component={Mnemonic} />
       <Route path="/match" component={Match} />
+      <Route path="/daily-drill" component={DailyDrill} />
+      <Route path="/speed-round" component={SpeedRound} />
       <Route path="/study/:mode" component={Study} />
       <Route path="/results" component={Results} />
       <Route component={NotFound} />

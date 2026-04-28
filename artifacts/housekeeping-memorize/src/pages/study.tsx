@@ -111,7 +111,6 @@ export default function Study() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ 
               opacity: 1, 
-              x: 0,
               x: feedback === 'wrong' ? [0, -10, 10, -10, 10, 0] : 0
             }}
             transition={{ duration: 0.3 }}
@@ -315,7 +314,7 @@ function FillBlank({ question, onAnswer, feedback }: { question: FillBlankQuesti
     const normalizedVal = val.trim().toLowerCase();
     const isCorrect = 
       normalizedVal === question.correctAnswer.toLowerCase() || 
-      (question.synonyms?.map(s=>s.toLowerCase()).includes(normalizedVal));
+      (question.synonyms?.map(s=>s.toLowerCase()).includes(normalizedVal) ?? false);
 
     onAnswer(isCorrect);
   };

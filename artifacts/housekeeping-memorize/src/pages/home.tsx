@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useMastery } from "@/lib/mastery";
+import { useStreaks } from "@/lib/streaks";
 import { slideTitles, totalSlides } from "@/data/content";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -60,6 +61,7 @@ function ProgressCircle({ value }: { value: number }) {
 
 export default function Home() {
   const { getOverallMastery, getSlideProgress, getWeakCount, resetProgress } = useMastery();
+  const { currentStreak, longestStreak, completedToday, bestSpeedScore } = useStreaks();
   const overall = getOverallMastery();
   const weakCount = getWeakCount();
 
@@ -92,6 +94,71 @@ export default function Home() {
         </section>
 
         <section className="space-y-3">
+          <Link href="/daily-drill">
+            <Card className={`hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] ${completedToday ? 'border-orange-300/40 bg-orange-50/60 dark:bg-orange-950/20' : 'border-orange-400/60 bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950/30 dark:to-yellow-950/20 dark:border-orange-600/50'}`}>
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 bg-orange-200/70 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 rounded-full shrink-0">
+                  <CalendarCheck className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-foreground">Daily Drill</h3>
+                    {currentStreak > 0 && (
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full bg-orange-200/60 dark:bg-orange-900/40">
+                        <Flame className="w-3 h-3" /> {currentStreak} day{currentStreak === 1 ? '' : 's'}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    {completedToday
+                      ? "Done today — come back tomorrow to keep the streak."
+                      : "10 questions a day. Build the habit."}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/speed-round">
+            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-yellow-400/50 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 dark:border-yellow-600/40">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 bg-yellow-200/70 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400 rounded-full shrink-0">
+                  <Zap className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-foreground">Speed Round</h3>
+                    {bestSpeedScore > 0 && (
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-full bg-yellow-200/60 dark:bg-yellow-900/40">
+                        <Trophy className="w-3 h-3" /> {bestSpeedScore} best
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    60 seconds. Answer as many as you can.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          {(currentStreak > 0 || longestStreak > 0) && (
+            <div className="grid grid-cols-3 gap-2 pt-1">
+              <div className="p-3 rounded-xl border bg-card text-center">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Streak</p>
+                <p className="text-xl font-bold text-orange-600 dark:text-orange-400 mt-0.5">{currentStreak}🔥</p>
+              </div>
+              <div className="p-3 rounded-xl border bg-card text-center">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Longest</p>
+                <p className="text-xl font-bold text-foreground mt-0.5">{longestStreak}🏆</p>
+              </div>
+              <div className="p-3 rounded-xl border bg-card text-center">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Speed</p>
+                <p className="text-xl font-bold text-yellow-700 dark:text-yellow-400 mt-0.5">{bestSpeedScore}⚡</p>
+              </div>
+            </div>
+          )}
+
           <Link href="/review">
             <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/30 bg-primary/5">
               <CardContent className="p-5 flex items-center gap-4">
