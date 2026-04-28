@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Housekeeping Memorize"
+version = "1.0.0"
+id = "artifacts/housekeeping-memorize"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22355
+
+[services.development]
+run = "pnpm --filter @workspace/housekeeping-memorize run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/housekeeping-memorize", "run", "build" ]
+publicDir = "artifacts/housekeeping-memorize/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22355"
+BASE_PATH = "/"
