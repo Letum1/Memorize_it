@@ -6,7 +6,7 @@ import { slideTitles, totalSlides } from "@/data/content";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -99,12 +99,13 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-foreground">Review Mode</h3>
-                  <p className="text-sm text-muted-foreground mt-0.5">Read everything with answers shown — start here.</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">Read all 17 slides in full — start here.</p>
                 </div>
               </CardContent>
             </Card>
           </Link>
 
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground pt-2">Practice & Drill</h2>
           <div className="grid grid-cols-2 gap-3">
             <Link href="/study/mixed">
               <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/20 bg-primary/5 h-full">
@@ -154,6 +155,62 @@ export default function Home() {
                   <div>
                     <h3 className="font-semibold text-foreground">Multi Choice</h3>
                     <p className="text-xs text-muted-foreground mt-1">Identify facts</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground pt-4">Deep Memorization</h2>
+          <div className="grid grid-cols-2 gap-3">
+            <Link href="/brain-dump">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Brain Dump</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Blurt for 2 min</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/teach-it">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Teach It</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Feynman style</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/match">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <Grid3x3 className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Diagram Master</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Match terms</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/mnemonic">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <Link2 className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Mnemonic</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Story per fact</p>
                   </div>
                 </CardContent>
               </Card>

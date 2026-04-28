@@ -6,7 +6,7 @@ import { Question, QuestionType, FlashcardQuestion, MultipleChoiceQuestion, Fill
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Check, X, ArrowRight } from "lucide-react";
+import { Check, X, ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type FeedbackState = 'idle' | 'correct' | 'wrong';
@@ -65,14 +65,30 @@ export default function Study() {
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
-      <header className="p-4 border-b flex flex-col gap-2">
-        <div className="flex justify-between items-center text-sm font-medium text-muted-foreground">
-          <span>{currentIndex + 1} of {items.length}</span>
-          <Button variant="ghost" size="sm" onClick={() => setLocation('/')}>Exit</Button>
-        </div>
-        <Progress value={progress} className="h-2" />
-        <div className="text-xs font-semibold text-primary uppercase tracking-wider text-center mt-2">
-          Slide {currentQuestion.slideNum}: {currentQuestion.slideTitle}
+      <header
+        className="border-b sticky top-0 bg-background/95 backdrop-blur z-20"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      >
+        <div className="p-3 flex flex-col gap-3">
+          <div className="flex items-center justify-between gap-3">
+            <Button
+              variant="outline"
+              size="default"
+              onClick={() => setLocation('/')}
+              className="h-11 px-4 font-medium"
+              data-testid="button-exit-study"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Exit
+            </Button>
+            <span className="text-sm font-semibold text-foreground tabular-nums">
+              {currentIndex + 1} / {items.length}
+            </span>
+          </div>
+          <Progress value={progress} className="h-2" />
+          <div className="text-xs font-semibold text-primary uppercase tracking-wider text-center">
+            Slide {currentQuestion.slideNum}: {currentQuestion.slideTitle}
+          </div>
         </div>
       </header>
 

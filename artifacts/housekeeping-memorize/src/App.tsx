@@ -7,6 +7,10 @@ import Home from "@/pages/home";
 import Study from "@/pages/study";
 import Results from "@/pages/results";
 import Review from "@/pages/review";
+import BrainDump from "@/pages/brain-dump";
+import TeachIt from "@/pages/teach-it";
+import Mnemonic from "@/pages/mnemonic";
+import Match from "@/pages/match";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +19,11 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/review" component={Review} />
+      <Route path="/review/:slide" component={Review} />
+      <Route path="/brain-dump" component={BrainDump} />
+      <Route path="/teach-it" component={TeachIt} />
+      <Route path="/mnemonic" component={Mnemonic} />
+      <Route path="/match" component={Match} />
       <Route path="/study/:mode" component={Study} />
       <Route path="/results" component={Results} />
       <Route component={NotFound} />

@@ -11,7 +11,7 @@ export function useMastery() {
   const [mastery, setMastery] = useState<MasteryData>(() => {
     try {
       const stored = localStorage.getItem('housekeeping_mastery');
-      return stored ? JSON.JSON.parse(stored) : {};
+      return stored ? JSON.parse(stored) : {};
     } catch (e) {
       return {};
     }

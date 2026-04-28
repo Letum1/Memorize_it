@@ -1,0 +1,27 @@
+Your current setup covers the "big four" of active recall: **Flashcards**, **Multiple Choice**, **Mixed Drills**, and **Fill in the Blank**. This is a great foundation for your website, especially since you're already prioritizing "smart rotation" (which hints at a Spaced Repetition System).
+To take your **Memorize It** platform to the next level, here are a few advanced methods you might be missing that would fit perfectly into your UI:
+### 1. The "Blurting" Method (Active Output)
+This is one of the most effective ways to find "knowledge gaps."
+ * **The Logic:** You read a page or watch a video, then close it and write down *everything* you remember on a blank screen.
+ * **Feature Idea:** Add a **"Brain Dump"** mode where the user types freely for 2 minutes. Afterward, your site shows the original text side-by-side so they can see what they missed.
+### 2. The Feynman Technique (Concept Clarity)
+Memorization fails if you don't understand the "why."
+ * **The Logic:** Explaining a complex topic (like maritime safety or bookkeeping) in simple terms as if you were talking to a child.
+ * **Feature Idea:** Add an **"Explain it Simply"** prompt. Have the user record a voice clip or type a simplified summary. You could even use AI to "grade" if their explanation is simple enough or if it's too full of jargon.
+### 3. Image Occlusion (Visual Memory)
+For technical subjects like maritime charts or housekeeping equipment, text-based flashcards aren't enough.
+ * **The Logic:** Hiding parts of an image (labels on a diagram) and forcing the user to guess what's behind the box.
+ * **Feature Idea:** A mode where users can upload a photo, draw boxes over the text, and then test themselves by clicking the boxes to reveal the answer.
+### 4. Mnemonic & Story Linking
+The human brain remembers stories better than facts.
+ * **The Logic:** Creating a "Memory Palace" or a funny acronym (like *PEMDAS* or *ROYGBIV*).
+ * **Feature Idea:** Add a **"Mnemonic Generator"** or a notes field specifically labeled "My Story for This Fact" so users are forced to create a mental link.
+### Summary of Potential Additions
+| Method | UI Element Name | Why it helps |
+|---|---|---|
+| **Blurting** | Brain Dump | Identifies exactly what your brain "filtered out." |
+| **Image Occlusion** | Diagram Master | Best for visual/spatial memorization. |
+| **Feynman** | Teach It | Ensures long-term retention through understanding. |
+| **Mnemonics** | Linker | Creates "hooks" for hard-to-remember lists. |
+Since you’re building this in **Replit**, adding an **Image Occlusion** tool would be a killer feature—it's one of the most requested tools in apps like Anki!
+What specific subjects are you focusing on memorizing right now? I can help you tailor the code for one of these new modes.
