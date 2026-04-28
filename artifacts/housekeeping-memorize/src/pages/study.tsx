@@ -164,26 +164,39 @@ export default function Study() {
 function Flashcard({ question, onAnswer, feedback, advance }: { question: FlashcardQuestion, onAnswer: (c: boolean) => void, feedback: FeedbackState, advance: () => void }) {
   const [flipped, setFlipped] = useState(false);
 
+  useEffect(() => {
+    setFlipped(false);
+  }, [question.id]);
+
   return (
     <div className="w-full flex flex-col items-center gap-8">
       <div 
-        className="w-full aspect-square md:aspect-video perspective-1000 cursor-pointer"
-        onClick={() => { if(feedback === 'idle') setFlipped(true); }}
+        className="w-full aspect-square md:aspect-video cursor-pointer"
+        style={{ perspective: '1200px' }}
+        onClick={() => { if(feedback === 'idle') setFlipped(f => !f); }}
       >
         <motion.div
-          className="w-full h-full relative preserve-3d"
+          className="w-full h-full relative"
+          style={{ transformStyle: 'preserve-3d' }}
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.6, type: 'spring', stiffness: 260, damping: 20 }}
         >
           {/* Front */}
-          <div className="absolute inset-0 backface-hidden bg-card border rounded-3xl p-8 flex items-center justify-center shadow-lg">
+          <div
+            className="absolute inset-0 bg-card border rounded-3xl p-8 flex items-center justify-center shadow-lg"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+          >
             <h2 className="text-2xl font-semibold text-center text-foreground">{question.front}</h2>
             {!flipped && <div className="absolute bottom-6 text-sm text-muted-foreground animate-pulse">Tap to flip</div>}
           </div>
-          
+
           {/* Back */}
-          <div className="absolute inset-0 backface-hidden bg-primary text-primary-foreground rounded-3xl p-8 flex items-center justify-center shadow-lg" style={{ transform: 'rotateY(180deg)' }}>
-            <p className="text-xl font-medium text-center">{question.back}</p>
+          <div
+            className="absolute inset-0 bg-primary text-primary-foreground rounded-3xl p-8 flex flex-col items-center justify-center shadow-lg"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+          >
+            <p className="text-xs uppercase tracking-widest text-primary-foreground/70 mb-4">Answer</p>
+            <p className="text-xl font-medium text-center leading-relaxed">{question.back}</p>
           </div>
         </motion.div>
       </div>

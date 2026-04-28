@@ -6,7 +6,7 @@ import { slideTitles, totalSlides } from "@/data/content";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Layers, Type, Target, RotateCcw } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -90,59 +90,75 @@ export default function Home() {
           )}
         </section>
 
-        <section className="grid grid-cols-2 gap-4">
-          <Link href="/study/mixed">
-            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/20 bg-primary/5">
-              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
-                <div className="p-3 bg-primary/20 text-primary rounded-full">
-                  <Brain className="w-6 h-6" />
+        <section className="space-y-3">
+          <Link href="/review">
+            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/30 bg-primary/5">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 bg-primary/20 text-primary rounded-full shrink-0">
+                  <BookOpen className="w-6 h-6" />
                 </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Mixed Drill</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Smart rotation</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link href="/study/flashcard">
-            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98]">
-              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
-                <div className="p-3 bg-muted text-foreground rounded-full">
-                  <Layers className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Flashcards</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Self-graded</p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-foreground">Review Mode</h3>
+                  <p className="text-sm text-muted-foreground mt-0.5">Read everything with answers shown — start here.</p>
                 </div>
               </CardContent>
             </Card>
           </Link>
-          <Link href="/study/fill-blank">
-            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98]">
-              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
-                <div className="p-3 bg-muted text-foreground rounded-full">
-                  <Type className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Fill Blank</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Recall exactly</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link href="/study/multiple-choice">
-            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98]">
-              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
-                <div className="p-3 bg-muted text-foreground rounded-full">
-                  <Target className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Multi Choice</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Identify facts</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Link href="/study/mixed">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/20 bg-primary/5 h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-primary/20 text-primary rounded-full">
+                    <Brain className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Mixed Drill</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Smart rotation</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/study/flashcard">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <Layers className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Flashcards</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Tap to flip</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/study/fill-blank">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <Type className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Fill Blank</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Recall exactly</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/study/multiple-choice">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <Target className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Multi Choice</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Identify facts</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
         </section>
 
         <section className="space-y-4">
@@ -188,6 +204,12 @@ export default function Home() {
             </AlertDialogContent>
           </AlertDialog>
         </section>
+
+        <footer className="text-center pt-4">
+          <p className="text-xs text-muted-foreground">
+            Made by <span className="font-semibold text-foreground">Clyde Bonita</span>
+          </p>
+        </footer>
       </div>
     </div>
   );
