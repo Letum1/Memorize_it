@@ -82,6 +82,29 @@ export function useMastery() {
     return weightedPool.slice(0, count).map(item => item.q);
   };
 
+  const getHardestItems = (count: number = 10) => {
+    const ranked = housekeepingContent
+      .map(q => ({ q, level: mastery[q.id] || 0, jitter: Math.random() }))
+      .filter(r => r.level < MAX_MASTERY)
+      .sort((a, b) => {
+        if (a.level !== b.level) return a.level - b.level;
+        return a.jitter - b.jitter;
+      });
+
+    if (ranked.length === 0) {
+      const fallback = housekeepingContent
+        .map(q => ({ q, jitter: Math.random() }))
+        .sort((a, b) => a.jitter - b.jitter);
+      return fallback.slice(0, count).map(r => r.q);
+    }
+
+    return ranked.slice(0, count).map(r => r.q);
+  };
+
+  const getWeakCount = () => {
+    return housekeepingContent.filter(q => (mastery[q.id] || 0) < MAX_MASTERY).length;
+  };
+
   const resetProgress = () => {
     setMastery({});
     localStorage.removeItem('housekeeping_mastery');
@@ -93,6 +116,8 @@ export function useMastery() {
     getOverallMastery,
     getSlideProgress,
     getSessionItems,
+    getHardestItems,
+    getWeakCount,
     resetProgress
   };
 }

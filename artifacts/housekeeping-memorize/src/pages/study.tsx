@@ -14,17 +14,24 @@ type FeedbackState = 'idle' | 'correct' | 'wrong';
 export default function Study() {
   const { mode } = useParams<{ mode: string }>();
   const [, setLocation] = useLocation();
-  const { getSessionItems, recordAnswer } = useMastery();
+  const { getSessionItems, getHardestItems, recordAnswer } = useMastery();
   
   const [items, setItems] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [feedback, setFeedback] = useState<FeedbackState>('idle');
   const [sessionCorrect, setSessionCorrect] = useState(0);
 
+  const isHardest = mode === 'hardest';
+
   // Initialize session once
   useEffect(() => {
-    const qType = mode as QuestionType | 'mixed';
-    const newItems = getSessionItems(qType, 15);
+    let newItems: Question[] = [];
+    if (mode === 'hardest') {
+      newItems = getHardestItems(10);
+    } else {
+      const qType = mode as QuestionType | 'mixed';
+      newItems = getSessionItems(qType, 15);
+    }
     if (newItems.length === 0) {
       setLocation('/');
       return;
@@ -86,6 +93,11 @@ export default function Study() {
             </span>
           </div>
           <Progress value={progress} className="h-2" />
+          {isHardest && (
+            <div className="text-[11px] font-bold uppercase tracking-wider text-center text-amber-700 dark:text-amber-400">
+              Hardest 10 Drill
+            </div>
+          )}
           <div className="text-xs font-semibold text-primary uppercase tracking-wider text-center">
             Slide {currentQuestion.slideNum}: {currentQuestion.slideTitle}
           </div>

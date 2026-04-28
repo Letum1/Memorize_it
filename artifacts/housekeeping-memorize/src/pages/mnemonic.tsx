@@ -1,11 +1,12 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { getAllFullSlides } from "@/data/slideHelpers";
+import { getPremadeMnemonic } from "@/data/premadeMnemonics";
 import { useMnemonics } from "@/lib/mnemonics";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Link2, Check, ChevronDown } from "lucide-react";
+import { ArrowLeft, Link2, Check, ChevronDown, Lightbulb } from "lucide-react";
 
 export default function Mnemonic() {
   const slides = useMemo(getAllFullSlides, []);
@@ -52,12 +53,30 @@ export default function Mnemonic() {
             </p>
           </div>
 
-          {slides.map(slide => (
+          {slides.map(slide => {
+            const premade = getPremadeMnemonic(slide.slideNum);
+            return (
             <section key={slide.slideNum} className="space-y-3">
               <div>
                 <p className="text-xs uppercase text-primary tracking-widest font-semibold">Slide {slide.slideNum}</p>
                 <h2 className="text-lg font-bold text-foreground">{slide.title}</h2>
               </div>
+              {premade && (
+                <Card className="border-amber-300/50 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-700/40">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-start gap-2">
+                      <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
+                      <div className="space-y-1">
+                        <p className="text-xs uppercase tracking-wider font-bold text-amber-700 dark:text-amber-300">Memory hook</p>
+                        <p className="text-sm font-semibold text-foreground">{premade.title}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-foreground/80 whitespace-pre-line leading-relaxed pl-6">
+                      {premade.story}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
               <div className="space-y-2">
                 {slide.facts.map(fact => {
                   const isOpen = expanded === fact.id;
@@ -122,7 +141,8 @@ export default function Mnemonic() {
                 })}
               </div>
             </section>
-          ))}
+            );
+          })}
           <div className="h-8" />
         </div>
       </main>
