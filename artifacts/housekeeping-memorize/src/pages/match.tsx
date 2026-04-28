@@ -32,18 +32,22 @@ export default function Match() {
   const [shuffledDefs, setShuffledDefs] = useState<SlidePair[]>([]);
   const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
   const [selectedDef, setSelectedDef] = useState<string | null>(null);
-  const [matched, setMatched] = useState<Set<string>>(new Set());
+  const [matchedTerms, setMatchedTerms] = useState<Set<string>>(new Set());
+  const [matchedDefs, setMatchedDefs] = useState<Set<string>>(new Set());
   const [wrongAttempt, setWrongAttempt] = useState<{ term: string; def: string } | null>(null);
   const [mistakes, setMistakes] = useState(0);
 
   const slide = eligibleSlides[slideIdx];
+
+  const norm = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
 
   const start = () => {
     const newPairs = pickPairs(slide);
     setPairs(newPairs);
     setShuffledTerms(shuffle(newPairs));
     setShuffledDefs(shuffle(newPairs));
-    setMatched(new Set());
+    setMatchedTerms(new Set());
+    setMatchedDefs(new Set());
     setSelectedTerm(null);
     setSelectedDef(null);
     setWrongAttempt(null);
@@ -53,8 +57,15 @@ export default function Match() {
 
   useEffect(() => {
     if (selectedTerm && selectedDef) {
-      if (selectedTerm === selectedDef) {
-        setMatched(prev => new Set(prev).add(selectedTerm));
+      const tPair = pairs.find(p => p.id === selectedTerm);
+      const dPair = pairs.find(p => p.id === selectedDef);
+      if (!tPair || !dPair) return;
+      const isMatch = pairs.some(
+        p => norm(p.term) === norm(tPair.term) && norm(p.definition) === norm(dPair.definition)
+      );
+      if (isMatch) {
+        setMatchedTerms(prev => new Set(prev).add(selectedTerm));
+        setMatchedDefs(prev => new Set(prev).add(selectedDef));
         setSelectedTerm(null);
         setSelectedDef(null);
       } else {
@@ -69,20 +80,21 @@ export default function Match() {
       }
     }
     return undefined;
-  }, [selectedTerm, selectedDef]);
+  }, [selectedTerm, selectedDef, pairs]);
 
   useEffect(() => {
-    if (phase === 'play' && pairs.length > 0 && matched.size === pairs.length) {
+    if (phase === 'play' && pairs.length > 0 && matchedTerms.size === pairs.length && matchedDefs.size === pairs.length) {
       const t = setTimeout(() => setPhase('done'), 600);
       return () => clearTimeout(t);
     }
     return undefined;
-  }, [matched, pairs, phase]);
+  }, [matchedTerms, matchedDefs, pairs, phase]);
 
   const restart = () => {
     setPhase('pick');
     setPairs([]);
-    setMatched(new Set());
+    setMatchedTerms(new Set());
+    setMatchedDefs(new Set());
   };
 
   return (
@@ -101,7 +113,7 @@ export default function Match() {
           </div>
           {phase === 'play' ? (
             <div className="text-sm font-semibold text-foreground tabular-nums">
-              {matched.size} / {pairs.length}
+              {matchedTerms.size} / {pairs.length}
             </div>
           ) : (
             <div className="w-[88px]" />
@@ -156,7 +168,7 @@ export default function Match() {
                 <div className="space-y-2">
                   <p className="text-xs uppercase font-semibold text-muted-foreground tracking-widest text-center">Terms</p>
                   {shuffledTerms.map(p => {
-                    const isMatched = matched.has(p.id);
+                    const isMatched = matchedTerms.has(p.id);
                     const isSelected = selectedTerm === p.id;
                     const isWrong = wrongAttempt?.term === p.id;
                     return (
@@ -180,7 +192,7 @@ export default function Match() {
                 <div className="space-y-2">
                   <p className="text-xs uppercase font-semibold text-muted-foreground tracking-widest text-center">Definitions</p>
                   {shuffledDefs.map(p => {
-                    const isMatched = matched.has(p.id);
+                    const isMatched = matchedDefs.has(p.id);
                     const isSelected = selectedDef === p.id;
                     const isWrong = wrongAttempt?.def === p.id;
                     return (
