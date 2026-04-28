@@ -59,9 +59,10 @@ export default function Study() {
   const advance = () => {
     setFeedback('idle');
     if (currentIndex + 1 >= items.length) {
+      const finalCorrect = sessionCorrect + (feedback === 'correct' ? 1 : 0);
       // Save results
       sessionStorage.setItem('lastSessionScore', JSON.stringify({
-        correct: sessionCorrect + (feedback === 'correct' ? 1 : 0), // account for current if just answered
+        correct: finalCorrect,
         total: items.length
       }));
       setLocation('/results');
