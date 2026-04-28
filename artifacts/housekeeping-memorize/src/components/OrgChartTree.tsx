@@ -11,10 +11,10 @@ interface Node {
 const TREE: Node[] = [
   { id: 'exec', label: 'Executive Manager', reports: ['hk-sup', 'pa-sup', 'linen-sup'] },
   { id: 'hk-sup', label: 'Housekeeping Supervisor', reports: ['hk-team'] },
-  { id: 'pa-sup', label: 'Public Area Superior', reports: ['pa-att'] },
+  { id: 'pa-sup', label: 'Public Area Superior', reports: ['gardener'] },
   { id: 'linen-sup', label: 'Linen Supervisor', reports: ['linen-att'] },
   { id: 'hk-team', label: 'Room Attendant, Chambermaid/Roomboy, Minibar Attendant', reports: [] },
-  { id: 'gardener', label: 'Gardener', reports: [] },
+  { id: 'gardener', label: 'Gardener', reports: ['pa-att'] },
   { id: 'pa-att', label: 'Public Area Attendant (Lobby)', reports: ['pest'] },
   { id: 'pest', label: 'Pest Control', reports: [] },
   { id: 'linen-att', label: 'Linen Attendant', reports: ['laundry'] },
