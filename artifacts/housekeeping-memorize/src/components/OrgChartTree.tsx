@@ -11,10 +11,10 @@ interface Node {
 const TREE: Node[] = [
   { id: 'exec', label: 'Executive Manager', reports: ['hk-sup', 'pa-sup', 'linen-sup'] },
   { id: 'hk-sup', label: 'Housekeeping Supervisor', reports: ['hk-team'] },
-  { id: 'pa-sup', label: 'Public Area Superior', reports: ['gardener'] },
+  { id: 'pa-sup', label: 'Public Area Superior', reports: ['gardener', 'pa-att'] },
   { id: 'linen-sup', label: 'Linen Supervisor', reports: ['linen-att'] },
   { id: 'hk-team', label: 'Room Attendant, Chambermaid/Roomboy, Minibar Attendant', reports: [] },
-  { id: 'gardener', label: 'Gardener', reports: ['pa-att'] },
+  { id: 'gardener', label: 'Gardener', reports: [] },
   { id: 'pa-att', label: 'Public Area Attendant (Lobby)', reports: ['pest'] },
   { id: 'pest', label: 'Pest Control', reports: [] },
   { id: 'linen-att', label: 'Linen Attendant', reports: ['laundry'] },
@@ -144,6 +144,11 @@ function isMatch(input: string, target: string) {
   return targetWords.every(w => a.includes(w));
 }
 
+function isPaSupAnswer(input: string) {
+  const a = normalize(input);
+  return a === normalize('Public Area Superior') || a === normalize('Public Area Attendant');
+}
+
 const QUIZ_BLANKS = ['hk-sup', 'pa-sup', 'linen-sup', 'gardener', 'linen-att', 'pest', 'iron'];
 
 export default function OrgChartTree() {
@@ -165,7 +170,8 @@ export default function OrgChartTree() {
     const next: typeof statuses = {};
     QUIZ_BLANKS.forEach(id => {
       const target = NODE_BY_ID[id]?.label || '';
-      next[id] = isMatch(values[id] || '', target) ? 'correct' : 'wrong';
+      const value = values[id] || '';
+      next[id] = id === 'pa-sup' ? (isPaSupAnswer(value) ? 'correct' : 'wrong') : (isMatch(value, target) ? 'correct' : 'wrong');
     });
     setStatuses(next);
     setChecked(true);
