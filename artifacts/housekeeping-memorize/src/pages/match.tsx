@@ -1,16 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { getAllSlideContent, SlideContent } from "@/data/slideContent";
+import { getAllFullSlides, FullSlide, SlidePair } from "@/data/slideHelpers";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Grid3x3, RotateCcw, Trophy, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Pair {
-  id: string;
-  term: string;
-  definition: string;
-}
 
 const PAIRS_PER_ROUND = 5;
 
@@ -23,20 +17,19 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function pickPairs(slide: SlideContent): Pair[] {
-  const eligible = slide.facts.filter(f => f.front && f.back);
-  const picked = shuffle(eligible).slice(0, PAIRS_PER_ROUND);
-  return picked.map(f => ({ id: f.id, term: f.front, definition: f.back }));
+function pickPairs(slide: FullSlide): SlidePair[] {
+  const eligible = slide.pairs.filter(p => p.term && p.definition);
+  return shuffle(eligible).slice(0, Math.min(PAIRS_PER_ROUND, eligible.length));
 }
 
 export default function Match() {
-  const slides = useMemo(getAllSlideContent, []);
-  const eligibleSlides = slides.filter(s => s.facts.length >= 2);
+  const slides = useMemo(getAllFullSlides, []);
+  const eligibleSlides = slides.filter(s => s.pairs.length >= 2);
   const [slideIdx, setSlideIdx] = useState(0);
   const [phase, setPhase] = useState<'pick' | 'play' | 'done'>('pick');
-  const [pairs, setPairs] = useState<Pair[]>([]);
-  const [shuffledTerms, setShuffledTerms] = useState<Pair[]>([]);
-  const [shuffledDefs, setShuffledDefs] = useState<Pair[]>([]);
+  const [pairs, setPairs] = useState<SlidePair[]>([]);
+  const [shuffledTerms, setShuffledTerms] = useState<SlidePair[]>([]);
+  const [shuffledDefs, setShuffledDefs] = useState<SlidePair[]>([]);
   const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
   const [selectedDef, setSelectedDef] = useState<string | null>(null);
   const [matched, setMatched] = useState<Set<string>>(new Set());
@@ -75,6 +68,7 @@ export default function Match() {
         return () => clearTimeout(t);
       }
     }
+    return undefined;
   }, [selectedTerm, selectedDef]);
 
   useEffect(() => {
@@ -82,6 +76,7 @@ export default function Match() {
       const t = setTimeout(() => setPhase('done'), 600);
       return () => clearTimeout(t);
     }
+    return undefined;
   }, [matched, pairs, phase]);
 
   const restart = () => {
@@ -137,7 +132,7 @@ export default function Match() {
                           : 'border-border bg-card hover:border-primary/40'
                       }`}
                     >
-                      <p className="text-xs uppercase text-muted-foreground tracking-widest">Slide {s.slideNum} — {s.facts.length} facts</p>
+                      <p className="text-xs uppercase text-muted-foreground tracking-widest">Slide {s.slideNum} — {s.pairs.length} pairs</p>
                       <p className="font-semibold text-foreground mt-0.5">{s.title}</p>
                     </button>
                   ))}

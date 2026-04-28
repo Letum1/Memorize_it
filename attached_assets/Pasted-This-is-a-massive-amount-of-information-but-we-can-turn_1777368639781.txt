@@ -1,0 +1,48 @@
+This is a massive amount of information, but we can turn these into "sticky" mental movies. To make this work in your **Replit** project, you’ll want to store these stories as a string property in your slide objects so they pop up when the user clicks "Mnemonic Linker."
+Here are premade, high-impact stories for your most difficult slides:
+### **Slide 4: The 5S System (The "S-Train")**
+ * **The Story:** Imagine a messy room.
+   1. **Sort:** You throw the trash out the window (**Seiri** - "See-rye," bye-bye trash).
+   2. **Set in Order:** You line up your shoes in a perfect row (**Seiton** - "Stay-ton," stay in your spot).
+   3. **Shine:** You scrub the floor until it's a mirror (**Seiso** - "Say-so," it's so clean!).
+   4. **Standardize:** You write a rulebook for the room (**Seiketsu** - "Stay-ketsu," keep the rules).
+   5. **Sustain:** You do a push-up to show discipline (**Shitsuke** - "She-suke," she stays disciplined).
+### **Slide 8 & 9: Status Codes (The "V-O" Rule)**
+ * **Memory Link:** * **V** starts the word **V**acant.
+   * **O** starts the word **O**ccupied.
+   * **C** = Clean, **D** = Dirty.
+   * **Example:** **VD** isn't a disease here; it's a **V**acant room that is **D**irty (The guest left a mess!).
+   * **OOO (Out of Order):** Think of the room saying "Ow! Ow! Ow!" because it’s broken and needs repair.
+### **Slide 15: Parts of the Bed (The "Bed Sandwich")**
+ * **The Story:** * The **Bed Pad** is the "diaper" (protects the mattress).
+   * The **Bed Skirt** is the "modesty" (hides the ugly legs/frame).
+   * The **Box Spring** is the "trampoline" (shock absorber).
+   * The **Headboard** is the "pillow-stopper."
+### **Slide 17: Cleaning Tools (The "Bubble Bath" Scene)**
+ * **The Story:** Imagine a giant **Toilet Brush** wearing a **Soft Sponge** as a hat, holding a **Spray Bottle** like a gun, while standing in a **Pail** of **Air Freshener**.
+ * **Why:** Combining the tools into one weird character makes you remember all five at once.
+### **How to implement this in Replit**
+Since you are building a web app, you should structure your data so the "Story" is easily accessible. Here is a suggested JavaScript structure for your slide data:
+```javascript
+const slides = [
+  {
+    id: 4,
+    title: "5S in Housekeeping",
+    content: ["Sort", "Set in Order", "Shine", "Standardize", "Sustain"],
+    mnemonic: "The S-Train: Bye-bye trash (Sort), Stay-in-spot (Set), So-clean (Shine), Stay-rules (Standardize), She-disciplined (Sustain)."
+  },
+  {
+    id: 8,
+    title: "Room Status Codes",
+    content: ["VC", "VD", "OC", "OD", "OOO"],
+    mnemonic: "V = Vacant, O = Occupied. OOO is the room yelling 'OW!' because it's broken (Out of Order)."
+  }
+];
+
+```
+### **Instructions for your Code:**
+ 1. **UI Update:** Create a "Lightbulb" icon or a "Hint" button on each slide.
+ 2. **Function:** When clicked, have a modal or a div (like your "Mnemonic Linker" in the screenshot) appear.
+ 3. **Dynamic Text:** Use element.innerText = slides[currentSlide].mnemonic to display the specific story for that slide.
+ 4. **User Input:** Allow the user to *overwrite* your premade stories with their own. Personal stories stick 10x better than premade ones!
+**Would you like me to write a specific mnemonic for the long list of Check-Out Procedures (Slide 5)? That one is the hardest to memorize!**
