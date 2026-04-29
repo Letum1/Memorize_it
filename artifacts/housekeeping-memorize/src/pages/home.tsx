@@ -23,14 +23,14 @@ import {
 } from "@/components/ui/alert-dialog";
 
 function ProgressCircle({ value }: { value: number }) {
-  const radius = 60;
-  const stroke = 12;
+  const radius = 64;
+  const stroke = 10;
   const normalizedRadius = radius - stroke * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (value / 100) * circumference;
 
   return (
-    <div className="relative flex items-center justify-center w-40 h-40">
+    <div className="relative flex items-center justify-center w-44 h-44">
       <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
         <circle
           stroke="hsl(var(--muted))"
@@ -53,9 +53,9 @@ function ProgressCircle({ value }: { value: number }) {
           className="transition-all duration-1000 ease-out"
         />
       </svg>
-      <div className="absolute flex flex-col items-center justify-center">
-        <span className="text-4xl font-bold text-primary">{value}%</span>
-        <span className="text-xs text-muted-foreground uppercase tracking-widest">Mastery</span>
+      <div className="absolute flex flex-col items-center justify-center leading-none">
+        <span className="text-3xl font-bold text-primary">{value}%</span>
+        <span className="mt-1 text-[10px] text-muted-foreground uppercase tracking-widest">Mastery</span>
       </div>
     </div>
   );
