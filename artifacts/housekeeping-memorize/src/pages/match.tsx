@@ -60,9 +60,7 @@ export default function Match() {
       const tPair = pairs.find(p => p.id === selectedTerm);
       const dPair = pairs.find(p => p.id === selectedDef);
       if (!tPair || !dPair) return;
-      const isMatch = pairs.some(
-        p => norm(p.term) === norm(tPair.term) && norm(p.definition) === norm(dPair.definition)
-      );
+      const isMatch = norm(tPair.term) === norm(dPair.definition);
       if (isMatch) {
         setMatchedTerms(prev => new Set(prev).add(selectedTerm));
         setMatchedDefs(prev => new Set(prev).add(selectedDef));
@@ -93,9 +91,17 @@ export default function Match() {
   const restart = () => {
     setPhase('pick');
     setPairs([]);
+    setShuffledTerms([]);
+    setShuffledDefs([]);
     setMatchedTerms(new Set());
     setMatchedDefs(new Set());
+    setSelectedTerm(null);
+    setSelectedDef(null);
+    setWrongAttempt(null);
+    setMistakes(0);
   };
+
+  const activeMatched = Math.min(matchedTerms.size, matchedDefs.size);
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
@@ -113,7 +119,7 @@ export default function Match() {
           </div>
           {phase === 'play' ? (
             <div className="text-sm font-semibold text-foreground tabular-nums">
-              {matchedTerms.size} / {pairs.length}
+              {activeMatched} / {pairs.length}
             </div>
           ) : (
             <div className="w-[88px]" />
