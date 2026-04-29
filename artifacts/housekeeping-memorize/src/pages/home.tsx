@@ -3,11 +3,13 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useMastery } from "@/lib/mastery";
 import { useStreaks } from "@/lib/streaks";
+import { useHardMode } from "@/lib/hardMode";
 import { slideTitles, totalSlides } from "@/data/content";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -62,6 +64,7 @@ function ProgressCircle({ value }: { value: number }) {
 export default function Home() {
   const { getOverallMastery, getSlideProgress, getWeakCount, resetProgress } = useMastery();
   const { currentStreak, longestStreak, completedToday, bestSpeedScore } = useStreaks();
+  const { hardMode, setHardMode } = useHardMode();
   const overall = getOverallMastery();
   const weakCount = getWeakCount();
 
@@ -167,11 +170,33 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-foreground">Review Mode</h3>
-                  <p className="text-sm text-muted-foreground mt-0.5">Read all 17 slides in full — start here.</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">Read all {totalSlides} slides in full — start here.</p>
                 </div>
               </CardContent>
             </Card>
           </Link>
+
+          <Card className={`transition-colors ${hardMode ? 'border-rose-400/60 bg-gradient-to-br from-rose-50 to-red-50 dark:from-rose-950/30 dark:to-red-950/20 dark:border-rose-600/50' : 'border-border bg-card'}`}>
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className={`p-3 rounded-full shrink-0 ${hardMode ? 'bg-rose-200/70 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300' : 'bg-muted text-muted-foreground'}`}>
+                <Skull className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-foreground">Hard Mode</h3>
+                  {hardMode && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400 px-2 py-0.5 rounded-full bg-rose-200/60 dark:bg-rose-900/40">
+                      ON
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  No clues. Multiple-choice options are hidden — type the answer from memory.
+                </p>
+              </div>
+              <Switch checked={hardMode} onCheckedChange={setHardMode} aria-label="Toggle Hard Mode" />
+            </CardContent>
+          </Card>
 
           {weakCount > 0 && (
             <Link href="/study/hardest">

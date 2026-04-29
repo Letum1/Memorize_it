@@ -352,6 +352,274 @@ export const housekeepingContent: Question[] = [
     id: 's17-fb-1', type: 'fill-blank', slideNum: 17, slideTitle: 'Cleaning Tools (Set 2)',
     question: 'A Pail is also commonly known as a ___.',
     correctAnswer: 'Bucket'
+  },
+  {
+    id: 's17-fb-2', type: 'fill-blank', slideNum: 17, slideTitle: 'Cleaning Tools (Set 2)',
+    question: 'Toilet ___ Brush is used to clean the inside of the toilet.',
+    correctAnswer: 'Bowl'
+  },
+  {
+    id: 's17-fb-3', type: 'fill-blank', slideNum: 17, slideTitle: 'Cleaning Tools (Set 2)',
+    question: 'A ___ Sponge is used for delicate surfaces in Set 2.',
+    correctAnswer: 'Soft'
+  },
+  {
+    id: 's17-fb-4', type: 'fill-blank', slideNum: 17, slideTitle: 'Cleaning Tools (Set 2)',
+    question: 'A Spray ___ holds cleaning liquid for misting onto surfaces.',
+    correctAnswer: 'Bottle'
+  },
+  {
+    id: 's17-fb-5', type: 'fill-blank', slideNum: 17, slideTitle: 'Cleaning Tools (Set 2)',
+    question: 'An Air ___ is sprayed to make the room smell pleasant.',
+    correctAnswer: 'Freshener'
+  },
+
+  // Slide 18 — Floor Polisher Parts
+  {
+    id: 's18-fc-1', type: 'flashcard', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    front: 'What does the Operation Control of the floor polisher do?',
+    back: 'Dual lever on/off safety switch for left or right hand operation.'
+  },
+  {
+    id: 's18-fc-2', type: 'flashcard', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    front: 'How long is the floor polisher Power Cord?',
+    back: '50 ft. UL listed 14/3 STW-A with cord strain relief.'
+  },
+  {
+    id: 's18-mc-1', type: 'multiple-choice', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    question: 'Which floor polisher part includes the 17" sanding block?',
+    options: ['Handle Tube', 'Sandpaper Driver', 'Transport Wheels', 'Pad Diameter'],
+    correctAnswer: 'Sandpaper Driver'
+  },
+  {
+    id: 's18-mc-2', type: 'multiple-choice', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    question: 'How big are the floor polisher transport wheels?',
+    options: ['3 inch', '5 inch', '7 inch', '17 inch'],
+    correctAnswer: '5 inch'
+  },
+  {
+    id: 's18-fb-1', type: 'fill-blank', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    question: 'The Handle Tube is all chrome and ___ inch wide.',
+    correctAnswer: '1-1/2',
+    synonyms: ['1.5', '1 1/2']
+  },
+  {
+    id: 's18-fb-2', type: 'fill-blank', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    question: 'The Pad Diameter of the floor polisher is ___ inches.',
+    correctAnswer: '17'
+  },
+  {
+    id: 's18-fb-3', type: 'fill-blank', slideNum: 18, slideTitle: 'Floor Polisher Parts',
+    question: 'All Metal ___ provides long lasting durability.',
+    correctAnswer: 'Housing'
+  },
+
+  // Slide 19 — Vacuum Cleaner Parts
+  {
+    id: 's19-fc-1', type: 'flashcard', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    front: 'Which part of the vacuum cleaner sucks dirt and debris in?',
+    back: 'Suction Port'
+  },
+  {
+    id: 's19-fc-2', type: 'flashcard', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    front: 'What does the Floor Brush do?',
+    back: 'It is the head attached to the suction hose that sweeps and picks up dirt from the floor.'
+  },
+  {
+    id: 's19-mc-1', type: 'multiple-choice', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    question: 'Which vacuum part allows it to roll in any direction?',
+    options: ['Top Cover', 'Universal Wheel', 'Handle', 'Middle Cover'],
+    correctAnswer: 'Universal Wheel'
+  },
+  {
+    id: 's19-mc-2', type: 'multiple-choice', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    question: 'Which switch lets the vacuum operate safely with water?',
+    options: ['Power Switch', 'Waterproof Switch', 'Suction Switch', 'Emergency Switch'],
+    correctAnswer: 'Waterproof Switch'
+  },
+  {
+    id: 's19-fb-1', type: 'fill-blank', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    question: 'The S/S ___ is the stainless steel container that holds debris and water.',
+    correctAnswer: 'Barrel'
+  },
+  {
+    id: 's19-fb-2', type: 'fill-blank', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    question: 'You hold the vacuum cleaner by the ___.',
+    correctAnswer: 'Handle'
+  },
+  {
+    id: 's19-fb-3', type: 'fill-blank', slideNum: 19, slideTitle: 'Vacuum Cleaner Parts',
+    question: 'Floor ___ is the head that sweeps the floor.',
+    correctAnswer: 'Brush'
+  },
+
+  // Slide 20 — Make Up Room Procedure (MUR)
+  {
+    id: 's20-fc-1', type: 'flashcard', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    front: 'What is step 1 of MUR?',
+    back: 'Place the cart in front of the room and knock the door.'
+  },
+  {
+    id: 's20-fc-2', type: 'flashcard', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    front: 'What is the LAST step of MUR?',
+    back: 'Check overall condition of the room.'
+  },
+  {
+    id: 's20-mc-1', type: 'multiple-choice', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    question: 'In MUR, after washing the drinking glasses you should refill the:',
+    options: ['Coffee maker', 'Termo jug', 'Minibar', 'Ice bucket'],
+    correctAnswer: 'Termo jug'
+  },
+  {
+    id: 's20-mc-2', type: 'multiple-choice', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    question: 'Which MUR step comes immediately AFTER making the bed?',
+    options: ['Empty trash cans', 'Clean / vacuum the floor', 'Make up the bathroom', 'Replenish soiled linen'],
+    correctAnswer: 'Clean / vacuum the floor'
+  },
+  {
+    id: 's20-fb-1', type: 'fill-blank', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    question: 'Place the cart in front of the room and ___ the door.',
+    correctAnswer: 'knock'
+  },
+  {
+    id: 's20-fb-2', type: 'fill-blank', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    question: 'Empty all trash ___ / basket.',
+    correctAnswer: 'cans',
+    synonyms: ['can']
+  },
+  {
+    id: 's20-fb-3', type: 'fill-blank', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    question: 'Dust the furniture and the fixtures, then polish the ___.',
+    correctAnswer: 'mirror',
+    synonyms: ['mirrors']
+  },
+  {
+    id: 's20-fb-4', type: 'fill-blank', slideNum: 20, slideTitle: 'Make Up Room Procedure (MUR)',
+    question: 'Replenish other guestroom ___.',
+    correctAnswer: 'supplies'
+  },
+
+  // Slide 21 — Ironing Long Sleeves
+  {
+    id: 's21-fc-1', type: 'flashcard', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    front: 'What is the FIRST step of ironing long sleeves on the wrong side?',
+    back: 'Start with the collar.'
+  },
+  {
+    id: 's21-fc-2', type: 'flashcard', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    front: 'What 2 DOs must you check before ironing long sleeves?',
+    back: 'Check the wirings first to avoid harm/injury, and preheat the iron to the correct temperature for the fabric.'
+  },
+  {
+    id: 's21-mc-1', type: 'multiple-choice', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    question: 'When ironing the body of the long sleeves, you should begin from the:',
+    options: ['Button side', 'Buttonhole side', 'Collar', 'Cuff'],
+    correctAnswer: 'Buttonhole side'
+  },
+  {
+    id: 's21-mc-2', type: 'multiple-choice', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    question: 'Which mixture can be sprayed to soften light wrinkles?',
+    options: ['Vinegar and salt', 'Baking soda and water', 'Lemon and bleach', 'Alcohol and starch'],
+    correctAnswer: 'Baking soda and water'
+  },
+  {
+    id: 's21-fb-1', type: 'fill-blank', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    question: 'Always check the ___ first to avoid harm or injury.',
+    correctAnswer: 'wirings',
+    synonyms: ['wiring']
+  },
+  {
+    id: 's21-fb-2', type: 'fill-blank', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    question: 'After the collar, iron the ___ on both sides.',
+    correctAnswer: 'shoulders',
+    synonyms: ['shoulder']
+  },
+  {
+    id: 's21-fb-3', type: 'fill-blank', slideNum: 21, slideTitle: 'Ironing Long Sleeves',
+    question: 'Preheat the iron until it reaches the correct ___ for the fabric.',
+    correctAnswer: 'temperature',
+    synonyms: ['temp']
+  },
+
+  // Slide 22 — Ironing Slacks
+  {
+    id: 's22-fc-1', type: 'flashcard', slideNum: 22, slideTitle: 'Ironing Slacks',
+    front: 'What is the FIRST step when ironing slacks (wrong side)?',
+    back: 'Start ironing the waistband.'
+  },
+  {
+    id: 's22-fc-2', type: 'flashcard', slideNum: 22, slideTitle: 'Ironing Slacks',
+    front: 'What is the finishing step for ironing slacks?',
+    back: 'Hang the slacks properly on a hanger to keep them wrinkle-free.'
+  },
+  {
+    id: 's22-mc-1', type: 'multiple-choice', slideNum: 22, slideTitle: 'Ironing Slacks',
+    question: 'After ironing the waistband on the wrong side, what should you iron next?',
+    options: ['The leg opening', 'All the pockets carefully', 'The hemline', 'The hanger loop'],
+    correctAnswer: 'All the pockets carefully'
+  },
+  {
+    id: 's22-mc-2', type: 'multiple-choice', slideNum: 22, slideTitle: 'Ironing Slacks',
+    question: 'After hip and legs, you continue ironing slacks down to the:',
+    options: ['Waistband', 'Pockets', 'Leg opening / hemline', 'Belt loops'],
+    correctAnswer: 'Leg opening / hemline'
+  },
+  {
+    id: 's22-fb-1', type: 'fill-blank', slideNum: 22, slideTitle: 'Ironing Slacks',
+    question: 'Start ironing the slacks at the ___.',
+    correctAnswer: 'waistband'
+  },
+  {
+    id: 's22-fb-2', type: 'fill-blank', slideNum: 22, slideTitle: 'Ironing Slacks',
+    question: 'Hang the slacks properly on a ___ to keep them wrinkle-free.',
+    correctAnswer: 'hanger'
+  },
+  {
+    id: 's22-fb-3', type: 'fill-blank', slideNum: 22, slideTitle: 'Ironing Slacks',
+    question: 'After the waistband, iron all the ___ carefully.',
+    correctAnswer: 'pockets',
+    synonyms: ['pocket']
+  },
+
+  // Slide 23 — Core Competencies
+  {
+    id: 's23-fc-1', type: 'flashcard', slideNum: 23, slideTitle: 'Core Competencies',
+    front: 'Name the 6 housekeeping core competencies.',
+    back: '1) Provide housekeeping services to guests, 2) Clean and prepare for incoming guests, 3) Provide valet/butler service, 4) Laundry linen and guests\' clothes, 5) Clean public area facilities and equipment, 6) Deal/handle intoxicated guests.'
+  },
+  {
+    id: 's23-fc-2', type: 'flashcard', slideNum: 23, slideTitle: 'Core Competencies',
+    front: 'Which core competency deals with drunk guests?',
+    back: 'Deal / handle intoxicated guests.'
+  },
+  {
+    id: 's23-mc-1', type: 'multiple-choice', slideNum: 23, slideTitle: 'Core Competencies',
+    question: 'Which of these is a core competency in housekeeping?',
+    options: ['Cooking guest meals', 'Provide valet / butler service', 'Driving the shuttle', 'Front-desk check-in'],
+    correctAnswer: 'Provide valet / butler service'
+  },
+  {
+    id: 's23-mc-2', type: 'multiple-choice', slideNum: 23, slideTitle: 'Core Competencies',
+    question: 'Cleaning lobbies, hallways, and shared facilities falls under which core competency?',
+    options: ['Provide housekeeping services to guests', 'Laundry linen and guests\' clothes', 'Clean public area facilities and equipment', 'Provide valet / butler service'],
+    correctAnswer: 'Clean public area facilities and equipment'
+  },
+  {
+    id: 's23-fb-1', type: 'fill-blank', slideNum: 23, slideTitle: 'Core Competencies',
+    question: 'Deal / handle ___ guests.',
+    correctAnswer: 'intoxicated',
+    synonyms: ['drunk']
+  },
+  {
+    id: 's23-fb-2', type: 'fill-blank', slideNum: 23, slideTitle: 'Core Competencies',
+    question: 'Laundry linen and guests\' ___.',
+    correctAnswer: 'clothes',
+    synonyms: ['clothing']
+  },
+  {
+    id: 's23-fb-3', type: 'fill-blank', slideNum: 23, slideTitle: 'Core Competencies',
+    question: 'Clean and ___ for incoming guests.',
+    correctAnswer: 'prepare'
   }
 ];
 

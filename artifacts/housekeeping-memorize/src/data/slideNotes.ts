@@ -297,4 +297,114 @@ export const slideNotes: SlideNote[] = [
       { label: "Air Freshener" },
     ],
   },
+  {
+    slideNum: 18,
+    title: "Floor Polisher Parts",
+    items: [
+      { label: "Operation Control", sub: ["Dual lever on/off safety switch for left or right hand operation."] },
+      { label: "Handle Tube", sub: ["All chrome 1-1/2 inch."] },
+      { label: "Power Cord", sub: ["50 ft. UL listed 14/3 STW-A. Comes with cord strain relief."] },
+      { label: "Sandpaper Driver", sub: ["Includes 17\" sanding block."] },
+      { label: "Transport Wheels", sub: ["5 inch non-marking self lubricated wheels."] },
+      { label: "All Metal Housing", sub: ["All metal housing provides long lasting durability."] },
+      { label: "Pad Diameter", sub: ["17\" pad diameter."] },
+    ],
+  },
+  {
+    slideNum: 19,
+    title: "Vacuum Cleaner Parts",
+    items: [
+      { label: "Handle" },
+      { label: "Top Cover" },
+      { label: "Suction Port" },
+      { label: "Floor Brush" },
+      { label: "Waterproof Switch" },
+      { label: "Middle Cover" },
+      { label: "Barrel Cover" },
+      { label: "S/S Barrel" },
+      { label: "Universal Wheel" },
+    ],
+  },
+  {
+    slideNum: 20,
+    title: "Make Up Room Procedure (MUR)",
+    items: [
+      { label: "Place the cart in front of the room and knock the door." },
+      { label: "Empty all trash cans / basket." },
+      { label: "Wash and wipe drinking glasses. Refill the termo jug." },
+      { label: "Replenish the soiled linen." },
+      { label: "Make up the bed." },
+      { label: "Clean / vacuum the floor." },
+      { label: "Dust the furniture and the fixtures, then polish the mirror." },
+      { label: "Replenish other guestroom supplies." },
+      { label: "Make up the bathroom." },
+      { label: "Check overall condition of the room." },
+    ],
+  },
+  {
+    slideNum: 21,
+    title: "Ironing Long Sleeves",
+    intro: "DO's: Check wirings first. Preheat the iron. Use baking soda + water spray for light wrinkles.",
+    groups: [
+      {
+        heading: "A. Wrong Side First",
+        items: [
+          { label: "Start with the collar." },
+          { label: "Iron the shoulders (both sides)." },
+          { label: "Iron the sleeves (both sides)." },
+          { label: "Body: begin on the buttonhole side, continue until the button side." },
+        ],
+      },
+      {
+        heading: "B. Right Side Next",
+        items: [
+          { label: "Iron the collar again." },
+          { label: "Iron the shoulders (both sides)." },
+          { label: "Iron the sleeves (both sides)." },
+          { label: "Body: again from the buttonhole side, continue around to the button side." },
+        ],
+      },
+    ],
+  },
+  {
+    slideNum: 22,
+    title: "Ironing Slacks",
+    groups: [
+      {
+        heading: "A. Wrong Side First",
+        items: [
+          { label: "Start ironing the waistband." },
+          { label: "Iron all pockets carefully." },
+          { label: "Move from the hip area down to the legs." },
+          { label: "Continue ironing down until you reach the leg opening / hemline." },
+        ],
+      },
+      {
+        heading: "B. Right Side Next",
+        items: [
+          { label: "Start again from the waistband." },
+          { label: "Iron the hip area down to the legs." },
+          { label: "Continue until you reach the leg opening / hemline." },
+        ],
+      },
+      {
+        heading: "C. Finishing Step",
+        items: [
+          { label: "Hang the slacks properly on a hanger to keep them wrinkle-free." },
+        ],
+      },
+    ],
+  },
+  {
+    slideNum: 23,
+    title: "Core Competencies",
+    items: [
+      { label: "Provide housekeeping services to guests." },
+      { label: "Clean and prepare for incoming guests." },
+      { label: "Provide valet / butler service." },
+      { label: "Laundry linen and guests' clothes." },
+      { label: "Clean public area facilities and equipment." },
+      { label: "Deal / handle intoxicated guests." },
+    ],
+  },
 ];

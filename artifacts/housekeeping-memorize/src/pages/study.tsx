@@ -2,11 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMastery } from "@/lib/mastery";
+import { useHardMode, looseTextMatch } from "@/lib/hardMode";
 import { Question, QuestionType, FlashcardQuestion, MultipleChoiceQuestion, FillBlankQuestion } from "@/data/content";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Check, X, ArrowRight, ArrowLeft } from "lucide-react";
+import { Check, X, ArrowRight, ArrowLeft, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type FeedbackState = 'idle' | 'correct' | 'wrong';
@@ -15,7 +16,8 @@ export default function Study() {
   const { mode } = useParams<{ mode: string }>();
   const [, setLocation] = useLocation();
   const { getSessionItems, getHardestItems, recordAnswer } = useMastery();
-  
+  const { hardMode } = useHardMode();
+
   const [items, setItems] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [feedback, setFeedback] = useState<FeedbackState>('idle');
@@ -108,6 +110,12 @@ export default function Study() {
               Hardest 10 Drill
             </div>
           )}
+          {hardMode && (
+            <div className="flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">
+              <Flame className="w-3.5 h-3.5" />
+              Hard Mode — no clues
+            </div>
+          )}
           <div className="text-xs font-semibold text-primary uppercase tracking-wider text-center">
             Slide {currentQuestion.slideNum}: {currentQuestion.slideTitle}
           </div>
@@ -135,12 +143,20 @@ export default function Study() {
                 advance={advance}
               />
             )}
-            {currentQuestion.type === 'multiple-choice' && (
+            {currentQuestion.type === 'multiple-choice' && !hardMode && (
               <MultipleChoice 
                 question={currentQuestion as MultipleChoiceQuestion} 
                 onAnswer={handleAnswer} 
                 feedback={feedback}
                 advance={advance}
+              />
+            )}
+            {currentQuestion.type === 'multiple-choice' && hardMode && (
+              <HardModeTyped
+                prompt={(currentQuestion as MultipleChoiceQuestion).question}
+                correctAnswer={(currentQuestion as MultipleChoiceQuestion).correctAnswer}
+                onAnswer={handleAnswer}
+                feedback={feedback}
               />
             )}
             {currentQuestion.type === 'fill-blank' && (
@@ -149,6 +165,7 @@ export default function Study() {
                 onAnswer={handleAnswer} 
                 feedback={feedback}
                 advance={advance}
+                hardMode={hardMode}
               />
             )}
           </motion.div>
@@ -306,7 +323,7 @@ function MultipleChoice({ question, onAnswer, feedback }: { question: MultipleCh
   );
 }
 
-function FillBlank({ question, onAnswer, feedback }: { question: FillBlankQuestion, onAnswer: (c: boolean) => void, feedback: FeedbackState, advance: () => void }) {
+function FillBlank({ question, onAnswer, feedback, hardMode }: { question: FillBlankQuestion, onAnswer: (c: boolean) => void, feedback: FeedbackState, advance: () => void, hardMode?: boolean }) {
   const [val, setVal] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -320,11 +337,15 @@ function FillBlank({ question, onAnswer, feedback }: { question: FillBlankQuesti
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (feedback !== 'idle' || !val.trim()) return;
-    
+
     const normalizedVal = val.trim().toLowerCase();
-    const isCorrect = 
-      normalizedVal === question.correctAnswer.toLowerCase() || 
-      (question.synonyms?.map(s=>s.toLowerCase()).includes(normalizedVal) ?? false);
+    const target = question.correctAnswer.toLowerCase();
+    const isCorrect = hardMode
+      ? normalizedVal === target
+      : (
+          normalizedVal === target ||
+          (question.synonyms?.map(s => s.toLowerCase()).includes(normalizedVal) ?? false)
+        );
 
     onAnswer(isCorrect);
   };
@@ -349,7 +370,7 @@ function FillBlank({ question, onAnswer, feedback }: { question: FillBlankQuesti
           onChange={e => setVal(e.target.value)}
           disabled={feedback !== 'idle'}
           className="h-16 text-xl text-center rounded-2xl border-2 bg-card"
-          placeholder="Type your answer..."
+          placeholder={hardMode ? "Exact answer only..." : "Type your answer..."}
         />
         <Button 
           type="submit" 
@@ -359,6 +380,50 @@ function FillBlank({ question, onAnswer, feedback }: { question: FillBlankQuesti
         >
           Check Answer
         </Button>
+      </div>
+    </form>
+  );
+}
+
+function HardModeTyped({ prompt, correctAnswer, onAnswer, feedback }: { prompt: string, correctAnswer: string, onAnswer: (c: boolean) => void, feedback: FeedbackState }) {
+  const [val, setVal] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => inputRef.current?.focus(), 100);
+  }, [prompt]);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (feedback !== 'idle' || !val.trim()) return;
+    onAnswer(looseTextMatch(val, correctAnswer));
+  };
+
+  return (
+    <form onSubmit={submit} className="w-full space-y-8 flex flex-col items-center">
+      <h2 className="text-2xl font-bold text-foreground text-center leading-relaxed">{prompt}</h2>
+
+      <div className="w-full max-w-sm mt-4 space-y-4">
+        <Input
+          ref={inputRef}
+          type="text"
+          value={val}
+          onChange={e => setVal(e.target.value)}
+          disabled={feedback !== 'idle'}
+          className="h-16 text-xl text-center rounded-2xl border-2 bg-card"
+          placeholder="Type the answer from memory..."
+        />
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full h-16 text-lg rounded-2xl"
+          disabled={feedback !== 'idle' || !val.trim()}
+        >
+          Check Answer
+        </Button>
+        <p className="text-[11px] text-center text-muted-foreground uppercase tracking-wider">
+          No options shown — recall it yourself.
+        </p>
       </div>
     </form>
   );
