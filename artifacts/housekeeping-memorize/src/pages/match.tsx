@@ -32,8 +32,7 @@ export default function Match() {
   const [shuffledDefs, setShuffledDefs] = useState<SlidePair[]>([]);
   const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
   const [selectedDef, setSelectedDef] = useState<string | null>(null);
-  const [matchedTerms, setMatchedTerms] = useState<Set<string>>(new Set());
-  const [matchedDefs, setMatchedDefs] = useState<Set<string>>(new Set());
+  const [matchedPairIds, setMatchedPairIds] = useState<Set<string>>(new Set());
   const [wrongAttempt, setWrongAttempt] = useState<{ term: string; def: string } | null>(null);
   const [mistakes, setMistakes] = useState(0);
 
@@ -62,8 +61,7 @@ export default function Match() {
       if (!tPair || !dPair) return;
       const isMatch = norm(tPair.term) === norm(dPair.definition);
       if (isMatch) {
-        setMatchedTerms(prev => new Set(prev).add(selectedTerm));
-        setMatchedDefs(prev => new Set(prev).add(selectedDef));
+        setMatchedPairIds(prev => new Set(prev).add(tPair.id));
         setSelectedTerm(null);
         setSelectedDef(null);
       } else {
@@ -93,15 +91,12 @@ export default function Match() {
     setPairs([]);
     setShuffledTerms([]);
     setShuffledDefs([]);
-    setMatchedTerms(new Set());
-    setMatchedDefs(new Set());
+    setMatchedPairIds(new Set());
     setSelectedTerm(null);
     setSelectedDef(null);
     setWrongAttempt(null);
     setMistakes(0);
   };
-
-  const activeMatched = Math.min(matchedTerms.size, matchedDefs.size);
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
@@ -119,7 +114,7 @@ export default function Match() {
           </div>
           {phase === 'play' ? (
             <div className="text-sm font-semibold text-foreground tabular-nums">
-              {activeMatched} / {pairs.length}
+              {matchedPairIds.size} / {pairs.length}
             </div>
           ) : (
             <div className="w-[88px]" />
@@ -174,7 +169,7 @@ export default function Match() {
                 <div className="space-y-2">
                   <p className="text-xs uppercase font-semibold text-muted-foreground tracking-widest text-center">Terms</p>
                   {shuffledTerms.map(p => {
-                    const isMatched = matchedTerms.has(p.id);
+                    const isMatched = matchedPairIds.has(p.id);
                     const isSelected = selectedTerm === p.id;
                     const isWrong = wrongAttempt?.term === p.id;
                     return (
@@ -198,7 +193,7 @@ export default function Match() {
                 <div className="space-y-2">
                   <p className="text-xs uppercase font-semibold text-muted-foreground tracking-widest text-center">Definitions</p>
                   {shuffledDefs.map(p => {
-                    const isMatched = matchedDefs.has(p.id);
+                    const isMatched = matchedPairIds.has(p.id);
                     const isSelected = selectedDef === p.id;
                     const isWrong = wrongAttempt?.def === p.id;
                     return (
