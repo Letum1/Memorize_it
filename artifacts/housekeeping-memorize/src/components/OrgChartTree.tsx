@@ -11,7 +11,7 @@ interface Node {
 const TREE: Node[] = [
   { id: 'exec', label: 'Executive Manager', reports: ['hk-sup', 'pa-sup', 'linen-sup'] },
   { id: 'hk-sup', label: 'Housekeeping Supervisor', reports: ['hk-team'] },
-  { id: 'pa-sup', label: 'Public Area Superior', reports: ['gardener', 'pa-att'] },
+  { id: 'pa-sup', label: 'Public Area Supervisor', reports: ['gardener', 'pa-att'] },
   { id: 'linen-sup', label: 'Linen Supervisor', reports: ['linen-att'] },
   { id: 'hk-team', label: 'Room Attendant, Chambermaid/Roomboy, Minibar Attendant', reports: [] },
   { id: 'gardener', label: 'Gardener', reports: [] },
@@ -146,7 +146,7 @@ function isMatch(input: string, target: string) {
 
 function isPaSupAnswer(input: string) {
   const a = normalize(input);
-  return a === normalize('Public Area Superior') || a === normalize('Public Area Attendant');
+  return a === normalize('Public Area Supervisor') || a === normalize('Public Area Superior');
 }
 
 const QUIZ_BLANKS = ['hk-sup', 'pa-sup', 'linen-sup', 'gardener', 'linen-att', 'pest', 'iron'];

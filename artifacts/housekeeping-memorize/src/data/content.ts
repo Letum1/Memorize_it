@@ -80,7 +80,7 @@ export const housekeepingContent: Question[] = [
   },
   {
     id: 's3-mc-1', type: 'multiple-choice', slideNum: 3, slideTitle: 'Organizational Chart',
-    question: 'Which of the following reports to the Public Area Superior?',
+    question: 'Which of the following reports to the Public Area Supervisor?',
     options: ['Room Attendant', 'Linen Attendant', 'Gardener', 'Minibar Attendant'],
     correctAnswer: 'Gardener'
   },

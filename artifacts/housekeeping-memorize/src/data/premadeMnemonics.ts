@@ -27,7 +27,7 @@ export const premadeMnemonics: PremadeMnemonic[] = [
     story:
       "Imagine the Executive Manager as a tree trunk with 3 branches:\n" +
       "1. HOUSEKEEPING Supervisor → Room Attendant, Chambermaid/Roomboy, Minibar Attendant (anything inside the room).\n" +
-      "2. PUBLIC AREA Superior → Gardener, Lobby Attendant, Pest Control (anything outside or shared).\n" +
+      "2. PUBLIC AREA Supervisor → Gardener, Lobby Attendant, Pest Control (anything outside or shared).\n" +
       "3. LINEN Supervisor → Linen Attendant, Laundry Attendant, Iron/Steam Press (anything fabric).\n" +
       "Memory hook: Rooms / Public / Linens = R-P-L = 'Really Polished Lobby.'",
   },

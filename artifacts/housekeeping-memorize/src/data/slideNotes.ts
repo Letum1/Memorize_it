@@ -42,7 +42,7 @@ export const slideNotes: SlideNote[] = [
         ],
       },
       {
-        heading: "Public Area Superior",
+        heading: "Public Area Supervisor",
         items: [
           { label: "Gardener" },
           { label: "Public Area Attendant (Lobby)" },
