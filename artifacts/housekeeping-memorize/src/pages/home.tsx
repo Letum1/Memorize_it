@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -216,6 +216,28 @@ export default function Home() {
               </Card>
             </Link>
           )}
+
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground pt-2">Procedures</h2>
+          <Link href="/procedures">
+            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-emerald-400/60 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20 dark:border-emerald-600/50">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 bg-emerald-200/70 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-full shrink-0">
+                  <ListChecks className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-foreground">All Procedures</h3>
+                    <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-200/60 dark:bg-emerald-900/40">
+                      Important
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    MUR · Turndown · Bathroom Cleaning · Check-Out — step by step.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
 
           <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground pt-2">Practice & Drill</h2>
           <div className="grid grid-cols-2 gap-3">

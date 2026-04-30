@@ -620,6 +620,105 @@ export const housekeepingContent: Question[] = [
     id: 's23-fb-3', type: 'fill-blank', slideNum: 23, slideTitle: 'Core Competencies',
     question: 'Clean and ___ for incoming guests.',
     correctAnswer: 'prepare'
+  },
+
+  // Slide 24 — Bathroom Cleaning Procedure
+  {
+    id: 's24-fc-1', type: 'flashcard', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    front: 'What is the FIRST step of bathroom cleaning?',
+    back: 'Put the caution sign.'
+  },
+  {
+    id: 's24-fc-2', type: 'flashcard', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    front: 'What is the LAST step of bathroom cleaning?',
+    back: 'Close the window and spray air freshener.'
+  },
+  {
+    id: 's24-fc-3', type: 'flashcard', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    front: 'When using the toilet bowl brush, which side do you brush first?',
+    back: 'The outside of the toilet first, then the inside.'
+  },
+  {
+    id: 's24-fc-4', type: 'flashcard', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    front: 'What tool is used for the wall vs the floor when cleaning?',
+    back: 'Sponge for the wall, hand brush for the floor.'
+  },
+  {
+    id: 's24-mc-1', type: 'multiple-choice', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'How many times should you knock the bathroom door before entering?',
+    options: ['1x', '2x', '3x', '4x'],
+    correctAnswer: '3x'
+  },
+  {
+    id: 's24-mc-2', type: 'multiple-choice', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'After applying the toilet bowl cleaner inside, what should you do next?',
+    options: ['Flush immediately', 'Close the toilet lid', 'Mop the floor', 'Open the window'],
+    correctAnswer: 'Close the toilet lid'
+  },
+  {
+    id: 's24-mc-3', type: 'multiple-choice', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Which tool is used to clean the mirror?',
+    options: ['Sponge', 'Hand brush', 'Squeegee', 'Ceiling broom'],
+    correctAnswer: 'Squeegee'
+  },
+  {
+    id: 's24-mc-4', type: 'multiple-choice', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'When cleaning the bathroom, you clean the wall and floor in what order?',
+    options: ['Floor first, then wall', 'Wall first, then floor', 'Mirror first, then wall', 'Toilet first, then floor'],
+    correctAnswer: 'Wall first, then floor'
+  },
+  {
+    id: 's24-fb-1', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Put the ___ sign.',
+    correctAnswer: 'caution',
+    synonyms: ['warning']
+  },
+  {
+    id: 's24-fb-2', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Knock the door ___ times.',
+    correctAnswer: '3',
+    synonyms: ['three', '3x']
+  },
+  {
+    id: 's24-fb-3', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Get the ceiling ___.',
+    correctAnswer: 'broom'
+  },
+  {
+    id: 's24-fb-4', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Use the ___ for the wall and the hand brush for the floor.',
+    correctAnswer: 'sponge'
+  },
+  {
+    id: 's24-fb-5', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Get the toilet bowl ___ — brush the outside before the inside.',
+    correctAnswer: 'brush'
+  },
+  {
+    id: 's24-fb-6', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Get the ___ for the mirror.',
+    correctAnswer: 'squeegee'
+  },
+  {
+    id: 's24-fb-7', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Get a dry ___ for the wall.',
+    correctAnswer: 'cloth',
+    synonyms: ['rag', 'towel']
+  },
+  {
+    id: 's24-fb-8', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Close the window and spray ___ freshener.',
+    correctAnswer: 'air'
+  },
+  {
+    id: 's24-fb-9', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Get the pail and fill with ___.',
+    correctAnswer: 'water'
+  },
+  {
+    id: 's24-fb-10', type: 'fill-blank', slideNum: 24, slideTitle: 'Bathroom Cleaning Procedure',
+    question: 'Check the ___ or open the window.',
+    correctAnswer: 'ventilation'
   }
 ];
 

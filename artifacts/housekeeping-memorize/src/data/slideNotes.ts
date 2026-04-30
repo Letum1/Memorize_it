@@ -407,4 +407,23 @@ export const slideNotes: SlideNote[] = [
       { label: "Deal / handle intoxicated guests." },
     ],
   },
+  {
+    slideNum: 24,
+    title: "Bathroom Cleaning Procedure",
+    items: [
+      { label: "Put the caution sign." },
+      { label: "Knock the door 3x." },
+      { label: "Check the ventilation / open the window." },
+      { label: "Get the ceiling broom." },
+      { label: "Get the trash." },
+      { label: "Get the toilet bowl cleaner — apply inside, then close the toilet lid." },
+      { label: "Get the pail and fill with water." },
+      { label: "Clean the wall, then the floor.", sub: ["Use the sponge for the wall and the hand brush for the floor."] },
+      { label: "Get the toilet bowl brush — brush the outside of the toilet first, then the inside." },
+      { label: "Get the squeegee for the mirror." },
+      { label: "Get a dry cloth for the wall." },
+      { label: "Mop the floor." },
+      { label: "Close the window and spray air freshener." },
+    ],
+  },
 ];

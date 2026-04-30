@@ -45,8 +45,7 @@ export default function Match() {
     setPairs(newPairs);
     setShuffledTerms(shuffle(newPairs));
     setShuffledDefs(shuffle(newPairs));
-    setMatchedTerms(new Set());
-    setMatchedDefs(new Set());
+    setMatchedPairIds(new Set());
     setSelectedTerm(null);
     setSelectedDef(null);
     setWrongAttempt(null);
@@ -79,12 +78,12 @@ export default function Match() {
   }, [selectedTerm, selectedDef, pairs]);
 
   useEffect(() => {
-    if (phase === 'play' && pairs.length > 0 && matchedTerms.size === pairs.length && matchedDefs.size === pairs.length) {
+    if (phase === 'play' && pairs.length > 0 && matchedPairIds.size === pairs.length) {
       const t = setTimeout(() => setPhase('done'), 600);
       return () => clearTimeout(t);
     }
     return undefined;
-  }, [matchedTerms, matchedDefs, pairs, phase]);
+  }, [matchedPairIds, pairs, phase]);
 
   const restart = () => {
     setPhase('pick');
