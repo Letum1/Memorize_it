@@ -1,10 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useRoute } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { slideNotes } from "@/data/slideNotes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ListChecks, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, ListChecks, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2, Eye, EyeOff, Shuffle, Trophy, Undo2 } from "lucide-react";
 
 const PROCEDURE_SLIDE_NUMS = [5, 7, 20, 24];
 
@@ -71,7 +71,178 @@ function ProcedureList({ procedures }: { procedures: Procedure[] }) {
   );
 }
 
-function StepWalkthrough({ procedure }: { procedure: Procedure }) {
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function OrderTest({ procedure, onBack }: { procedure: Procedure; onBack: () => void }) {
+  const total = procedure.steps.length;
+  const [pool, setPool] = useState<ProcedureStep[]>(() => shuffle(procedure.steps));
+  const [order, setOrder] = useState<ProcedureStep[]>([]);
+  const [mistakes, setMistakes] = useState(0);
+  const [wrongStep, setWrongStep] = useState<number | null>(null);
+  const [phase, setPhase] = useState<'play' | 'done'>('play');
+
+  const expectedNum = order.length + 1;
+
+  const handlePick = (step: ProcedureStep) => {
+    if (phase !== 'play') return;
+    if (step.num === expectedNum) {
+      const newOrder = [...order, step];
+      setOrder(newOrder);
+      setPool(pool.filter(p => p.num !== step.num));
+      setWrongStep(null);
+      if (newOrder.length === total) {
+        setTimeout(() => setPhase('done'), 400);
+      }
+    } else {
+      setMistakes(m => m + 1);
+      setWrongStep(step.num);
+      setTimeout(() => setWrongStep(prev => (prev === step.num ? null : prev)), 700);
+    }
+  };
+
+  const handleUndo = () => {
+    if (order.length === 0 || phase !== 'play') return;
+    const last = order[order.length - 1];
+    setOrder(order.slice(0, -1));
+    setPool([...pool, last]);
+  };
+
+  const handleReset = () => {
+    setPool(shuffle(procedure.steps));
+    setOrder([]);
+    setMistakes(0);
+    setWrongStep(null);
+    setPhase('play');
+  };
+
+  return (
+    <div className="space-y-6 pt-2">
+      <div className="text-center space-y-1">
+        <p className="text-xs uppercase text-rose-600 dark:text-rose-400 tracking-widest font-semibold">Order Test · Slide {procedure.slideNum}</p>
+        <h1 className="text-xl font-bold text-foreground">{procedure.title}</h1>
+      </div>
+
+      {phase === 'play' ? (
+        <>
+          <div className="flex items-center justify-between text-sm">
+            <span className="font-semibold text-foreground tabular-nums">
+              {order.length} / {total}
+            </span>
+            <span className="text-muted-foreground tabular-nums">
+              {mistakes} {mistakes === 1 ? 'mistake' : 'mistakes'}
+            </span>
+          </div>
+
+          <Card className="border-primary/30 bg-primary/5">
+            <CardContent className="p-4 space-y-2">
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                Tap step <span className="font-bold text-primary">{expectedNum}</span> next
+              </p>
+              {order.length === 0 ? (
+                <p className="text-sm text-muted-foreground italic">Pick the FIRST step to begin.</p>
+              ) : (
+                <ol className="space-y-1">
+                  {order.map((s, i) => (
+                    <li key={s.num} className="flex gap-3 text-sm text-foreground">
+                      <span className="font-mono text-xs text-primary w-5 shrink-0">{i + 1}.</span>
+                      <span className="line-clamp-2">{s.text}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </CardContent>
+          </Card>
+
+          <div className="space-y-2">
+            <p className="text-xs uppercase font-semibold text-muted-foreground tracking-widest">Choose the next step</p>
+            <AnimatePresence>
+              {pool.map(step => (
+                <motion.button
+                  key={step.num}
+                  layout
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  onClick={() => handlePick(step)}
+                  className={`w-full p-3 rounded-xl border-2 text-left text-sm font-medium transition-colors min-h-[56px] flex items-center ${
+                    wrongStep === step.num
+                      ? 'border-destructive bg-destructive/10 text-destructive animate-pulse'
+                      : 'border-border bg-card text-foreground hover:border-primary/40 active:scale-[0.98]'
+                  }`}
+                >
+                  {step.text}
+                </motion.button>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Button variant="outline" size="lg" className="h-12" onClick={handleUndo} disabled={order.length === 0}>
+              <Undo2 className="w-4 h-4 mr-2" />
+              Undo last
+            </Button>
+            <Button variant="outline" size="lg" className="h-12" onClick={handleReset}>
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Reshuffle
+            </Button>
+          </div>
+
+          <Button variant="ghost" className="w-full" onClick={onBack}>
+            <ChevronLeft className="w-4 h-4 mr-1" />
+            Back to walkthrough
+          </Button>
+        </>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="space-y-5 text-center pt-4"
+        >
+          <div className="inline-flex p-5 bg-primary/10 rounded-full">
+            <Trophy className="w-10 h-10 text-primary" />
+          </div>
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-foreground">
+              {mistakes === 0 ? 'Perfect order!' : 'All steps placed.'}
+            </h2>
+            <p className="text-muted-foreground">
+              {total} steps · {mistakes} {mistakes === 1 ? 'mistake' : 'mistakes'}
+            </p>
+          </div>
+          <ol className="space-y-1.5 text-left">
+            {procedure.steps.map(s => (
+              <li
+                key={s.num}
+                className="flex gap-3 p-2 rounded-lg text-sm text-foreground/80 border border-primary/20 bg-primary/5"
+              >
+                <span className="font-mono text-xs text-primary w-5 shrink-0">{s.num}.</span>
+                <span>{s.text}</span>
+              </li>
+            ))}
+          </ol>
+          <div className="grid grid-cols-2 gap-3 pb-2">
+            <Button variant="outline" size="lg" className="h-12" onClick={onBack}>
+              Walkthrough
+            </Button>
+            <Button size="lg" className="h-12" onClick={handleReset}>
+              <Shuffle className="w-4 h-4 mr-2" />
+              Test again
+            </Button>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+function StepWalkthrough({ procedure, onTest }: { procedure: Procedure; onTest: () => void }) {
   const [stepIdx, setStepIdx] = useState(0);
   const [hideText, setHideText] = useState(false);
   const [completed, setCompleted] = useState<Set<number>>(new Set());
@@ -108,6 +279,15 @@ function StepWalkthrough({ procedure }: { procedure: Procedure }) {
         <p className="text-xs uppercase text-primary tracking-widest font-semibold">Slide {procedure.slideNum}</p>
         <h1 className="text-xl font-bold text-foreground">{procedure.title}</h1>
       </div>
+
+      <Button
+        variant="outline"
+        className="w-full h-12 border-rose-400/60 bg-rose-50/60 dark:bg-rose-950/20 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-950/40"
+        onClick={onTest}
+      >
+        <Shuffle className="w-4 h-4 mr-2" />
+        Test order — drag steps into place
+      </Button>
 
       <div className="flex items-center gap-1 px-1">
         {procedure.steps.map((s, i) => (
@@ -249,6 +429,11 @@ export default function Procedures() {
   const [match, params] = useRoute<{ slide: string }>("/procedures/:slide");
   const slideNum = match ? parseInt(params.slide, 10) : null;
   const selected = slideNum != null ? procedures.find(p => p.slideNum === slideNum) : null;
+  const [mode, setMode] = useState<'walk' | 'test'>('walk');
+
+  useEffect(() => {
+    setMode('walk');
+  }, [slideNum]);
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
@@ -271,7 +456,11 @@ export default function Procedures() {
       <main className="flex-1 p-4">
         <div className="max-w-2xl mx-auto pb-10">
           {selected ? (
-            <StepWalkthrough procedure={selected} />
+            mode === 'test' ? (
+              <OrderTest procedure={selected} onBack={() => setMode('walk')} />
+            ) : (
+              <StepWalkthrough procedure={selected} onTest={() => setMode('test')} />
+            )
           ) : (
             <ProcedureList procedures={procedures} />
           )}
