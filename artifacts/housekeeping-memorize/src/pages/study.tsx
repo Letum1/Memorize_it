@@ -59,8 +59,13 @@ export default function Study() {
     setFeedback(isCorrect ? 'correct' : 'wrong');
 
     const newCorrect = sessionCorrect + (isCorrect ? 1 : 0);
-    if (isCorrect) {
-      setSessionCorrect(newCorrect);
+    if (isCorrect) setSessionCorrect(newCorrect);
+
+    // Flashcards have no wrong-answer overlay (user self-grades), so auto-advance
+    // on either answer. For other types, only auto-advance when correct; the
+    // wrong overlay handles continuing on wrong answers.
+    const shouldAutoAdvance = isCorrect || currentQuestion.type === 'flashcard';
+    if (shouldAutoAdvance) {
       const isLast = currentIndex + 1 >= items.length;
       setTimeout(() => {
         if (isLast) {

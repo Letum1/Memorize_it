@@ -51,7 +51,9 @@ export default function DailyDrill() {
     recordAnswer(current.id, isCorrect);
     setFeedback(isCorrect ? 'correct' : 'wrong');
     if (isCorrect) setCorrect(c => c + 1);
-    if (isCorrect) {
+    // Flashcards have no wrong-answer overlay (user self-grades), so auto-advance
+    // on either answer. Other types rely on the wrong overlay's "Continue" button.
+    if (isCorrect || current.type === 'flashcard') {
       setTimeout(advance, 900);
     }
   };
