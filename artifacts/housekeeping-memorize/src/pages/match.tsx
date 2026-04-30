@@ -38,8 +38,6 @@ export default function Match() {
 
   const slide = eligibleSlides[slideIdx];
 
-  const norm = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
-
   const start = () => {
     const newPairs = pickPairs(slide);
     setPairs(newPairs);
@@ -58,7 +56,7 @@ export default function Match() {
       const tPair = pairs.find(p => p.id === selectedTerm);
       const dPair = pairs.find(p => p.id === selectedDef);
       if (!tPair || !dPair) return;
-      const isMatch = norm(tPair.term) === norm(dPair.definition);
+      const isMatch = tPair.id === dPair.id;
       if (isMatch) {
         setMatchedPairIds(prev => new Set(prev).add(tPair.id));
         setSelectedTerm(null);
