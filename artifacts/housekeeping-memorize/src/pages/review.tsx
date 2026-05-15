@@ -2,8 +2,9 @@ import { useState, useRef } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { slideNotes, SlideNote } from "@/data/slideNotes";
+import { useStudyNotes } from "@/lib/useStudyNotes";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, List, X } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, List, X, Pencil, Check, StickyNote } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const CHAPTER_IMAGES: Record<number, string> = {
@@ -38,18 +39,170 @@ function chapterColor(n: number) {
   return CHAPTER_COLORS[n] || CHAPTER_COLORS[(n % 10) || 1];
 }
 
-function ChapterContent({ slide }: { slide: SlideNote }) {
+function itemKey(slideNum: number, type: "item" | "group", groupIdx: number, itemIdx: number) {
+  return type === "item"
+    ? `s${slideNum}-i${itemIdx}`
+    : `s${slideNum}-g${groupIdx}-i${itemIdx}`;
+}
+
+function NoteEditor({
+  value,
+  onSave,
+  onCancel,
+}: {
+  value: string;
+  onSave: (v: string) => void;
+  onCancel: () => void;
+}) {
+  const [text, setText] = useState(value);
+  return (
+    <div className="mt-2 space-y-1.5" onClick={(e) => e.stopPropagation()}>
+      <textarea
+        autoFocus
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Add your note…"
+        rows={2}
+        className="w-full px-3 py-2 text-sm rounded-lg border-2 border-primary/40 bg-background resize-none outline-none focus:border-primary"
+      />
+      <div className="flex gap-2">
+        <button
+          onClick={() => onSave(text)}
+          className="flex items-center gap-1 text-xs font-semibold text-primary bg-primary/10 hover:bg-primary/20 px-3 py-1.5 rounded-lg transition-colors"
+        >
+          <Check className="w-3 h-3" /> Save
+        </button>
+        <button
+          onClick={onCancel}
+          className="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-lg transition-colors"
+        >
+          Cancel
+        </button>
+        {value && (
+          <button
+            onClick={() => onSave("")}
+            className="text-xs text-destructive/70 hover:text-destructive px-3 py-1.5 rounded-lg transition-colors ml-auto"
+          >
+            Remove note
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function HighlightableItem({
+  label,
+  sub,
+  noteKey,
+  number,
+  isHighlighted,
+  note,
+  onToggle,
+  onNote,
+}: {
+  label: string;
+  sub?: string[];
+  noteKey: string;
+  number?: number;
+  isHighlighted: boolean;
+  note: string;
+  onToggle: () => void;
+  onNote: (text: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+
+  return (
+    <div
+      onClick={onToggle}
+      className={cn(
+        "flex gap-3 p-3 rounded-xl border transition-all cursor-pointer select-none",
+        isHighlighted
+          ? "border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700/50"
+          : "border-border/60 bg-card hover:border-primary/30"
+      )}
+    >
+      {number !== undefined && (
+        <span className={cn(
+          "w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 transition-colors",
+          isHighlighted ? "bg-amber-400/30 text-amber-700 dark:text-amber-300" : "bg-primary/10 text-primary"
+        )}>
+          {number}
+        </span>
+      )}
+      {number === undefined && (
+        <span className={cn(
+          "mt-2 shrink-0 text-sm transition-colors",
+          isHighlighted ? "text-amber-500" : "text-primary"
+        )}>•</span>
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <p className={cn(
+            "font-medium leading-snug text-sm transition-colors",
+            isHighlighted ? "text-amber-900 dark:text-amber-100" : "text-foreground"
+          )}>
+            {label}
+          </p>
+          {isHighlighted && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setEditing(true); }}
+              className="shrink-0 p-1 rounded-md hover:bg-amber-200/60 dark:hover:bg-amber-800/40 transition-colors"
+            >
+              <Pencil className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+            </button>
+          )}
+        </div>
+        {sub && sub.length > 0 && (
+          <ul className="mt-1.5 space-y-1">
+            {sub.map((s, j) => (
+              <li key={j} className={cn(
+                "text-sm pl-3 border-l-2 leading-relaxed transition-colors",
+                isHighlighted ? "border-amber-300 text-amber-800/70 dark:text-amber-200/70" : "border-primary/30 text-muted-foreground"
+              )}>
+                {s}
+              </li>
+            ))}
+          </ul>
+        )}
+        {note && !editing && (
+          <div className="mt-2 flex items-start gap-1.5">
+            <StickyNote className="w-3 h-3 text-amber-500 shrink-0 mt-0.5" />
+            <p className="text-xs italic text-amber-700 dark:text-amber-300 leading-relaxed">{note}</p>
+          </div>
+        )}
+        {editing && (
+          <NoteEditor
+            value={note}
+            onSave={(v) => { onNote(v); setEditing(false); }}
+            onCancel={() => setEditing(false)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ChapterContent({
+  slide,
+  isHighlighted,
+  getNote,
+  toggleHighlight,
+  setNote,
+}: {
+  slide: SlideNote;
+  isHighlighted: (key: string) => boolean;
+  getNote: (key: string) => string;
+  toggleHighlight: (key: string) => void;
+  setNote: (key: string, text: string) => void;
+}) {
   const image = CHAPTER_IMAGES[slide.slideNum];
 
   return (
     <div className="space-y-6">
       {image && (
         <div className="rounded-2xl overflow-hidden border border-border/50 shadow-sm">
-          <img
-            src={image}
-            alt={slide.title}
-            className="w-full object-contain"
-          />
+          <img src={image} alt={slide.title} className="w-full object-contain" />
         </div>
       )}
 
@@ -61,28 +214,22 @@ function ChapterContent({ slide }: { slide: SlideNote }) {
 
       {slide.items && slide.items.length > 0 && (
         <div className="space-y-2">
-          {slide.items.map((item, i) => (
-            <div
-              key={i}
-              className="flex gap-3 p-3 rounded-xl bg-card border border-border/60"
-            >
-              <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                {i + 1}
-              </span>
-              <div className="flex-1 min-w-0">
-                <p className="text-foreground font-medium leading-snug">{item.label}</p>
-                {item.sub && item.sub.length > 0 && (
-                  <ul className="mt-1.5 space-y-1">
-                    {item.sub.map((s, j) => (
-                      <li key={j} className="text-muted-foreground text-sm pl-3 border-l-2 border-primary/30 leading-relaxed">
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          ))}
+          {slide.items.map((item, i) => {
+            const k = itemKey(slide.slideNum, "item", 0, i);
+            return (
+              <HighlightableItem
+                key={i}
+                noteKey={k}
+                number={i + 1}
+                label={item.label}
+                sub={item.sub}
+                isHighlighted={isHighlighted(k)}
+                note={getNote(k)}
+                onToggle={() => toggleHighlight(k)}
+                onNote={(t) => setNote(k, t)}
+              />
+            );
+          })}
         </div>
       )}
 
@@ -97,29 +244,31 @@ function ChapterContent({ slide }: { slide: SlideNote }) {
                   </h3>
                 </div>
               )}
-              <div className="p-3 space-y-2 bg-card">
-                {group.items.map((item, i) => (
-                  <div key={i} className="flex gap-2.5">
-                    <span className="text-primary mt-1.5 shrink-0 text-sm">•</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-foreground leading-snug text-sm">{item.label}</p>
-                      {item.sub && item.sub.length > 0 && (
-                        <ul className="mt-1 space-y-0.5">
-                          {item.sub.map((s, j) => (
-                            <li key={j} className="text-muted-foreground text-xs pl-2 border-l border-muted-foreground/30">
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                ))}
+              <div className="p-2 space-y-1.5 bg-card">
+                {group.items.map((item, i) => {
+                  const k = itemKey(slide.slideNum, "group", gi, i);
+                  return (
+                    <HighlightableItem
+                      key={i}
+                      noteKey={k}
+                      label={item.label}
+                      sub={item.sub}
+                      isHighlighted={isHighlighted(k)}
+                      note={getNote(k)}
+                      onToggle={() => toggleHighlight(k)}
+                      onNote={(t) => setNote(k, t)}
+                    />
+                  );
+                })}
               </div>
             </div>
           ))}
         </div>
       )}
+
+      <p className="text-xs text-center text-muted-foreground/60 pt-2">
+        Tap any item to highlight it · Tap the pencil to add a note
+      </p>
     </div>
   );
 }
@@ -192,6 +341,7 @@ export default function Review() {
   const [direction, setDirection] = useState(0);
   const [showTOC, setShowTOC] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
+  const { toggleHighlight, setNote, isHighlighted, getNote, highlightCount, noteCount } = useStudyNotes();
 
   const slide = slideNotes[idx];
   const total = slideNotes.length;
@@ -222,14 +372,30 @@ export default function Review() {
               Home
             </Button>
           </Link>
-          <div className="flex items-center gap-2 text-sm font-semibold text-foreground truncate">
+          <div className="flex items-center gap-2 min-w-0">
             <BookOpen className="w-4 h-4 text-primary shrink-0" />
-            <span className="truncate hidden sm:inline">Housekeeping Handbook</span>
+            <span className="text-sm font-semibold text-foreground truncate hidden sm:inline">
+              Housekeeping Handbook
+            </span>
+            {(highlightCount > 0 || noteCount > 0) && (
+              <div className="flex items-center gap-1">
+                {highlightCount > 0 && (
+                  <span className="text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded-full">
+                    {highlightCount} ★
+                  </span>
+                )}
+                {noteCount > 0 && (
+                  <span className="text-[10px] font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded-full">
+                    {noteCount} 📝
+                  </span>
+                )}
+              </div>
+            )}
           </div>
           <Button
             variant="outline"
             size="default"
-            className="h-10 gap-2"
+            className="h-10 gap-2 shrink-0"
             onClick={() => setShowTOC(true)}
           >
             <List className="w-4 h-4" />
@@ -262,7 +428,13 @@ export default function Review() {
                 </h1>
               </div>
 
-              <ChapterContent slide={slide} />
+              <ChapterContent
+                slide={slide}
+                isHighlighted={isHighlighted}
+                getNote={getNote}
+                toggleHighlight={toggleHighlight}
+                setNote={setNote}
+              />
 
               <div className="mt-8 grid grid-cols-2 gap-3">
                 <Button
@@ -300,7 +472,7 @@ export default function Review() {
                 </Button>
               </div>
 
-              <div className="mt-5 flex items-center gap-2 justify-center">
+              <div className="mt-5 flex items-center gap-2 justify-center flex-wrap">
                 {slideNotes.map((_, i) => (
                   <button
                     key={i}

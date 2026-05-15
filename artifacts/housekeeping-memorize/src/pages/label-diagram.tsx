@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { diagrams, Diagram } from "@/data/diagrams";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ImageIcon, RotateCcw, Trophy, Check, X, ChevronRight } from "lucide-react";
+import { ArrowLeft, ImageIcon, RotateCcw, Trophy, Check, X, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function normalize(s: string) {
@@ -30,6 +30,7 @@ export default function LabelDiagram() {
   const [diagramIdx, setDiagramIdx] = useState(0);
   const [answers, setAnswers] = useState<AnswerState[]>([]);
   const [showHints, setShowHints] = useState(false);
+  const [imageRevealed, setImageRevealed] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const diagram: Diagram = diagrams[diagramIdx];
@@ -38,6 +39,7 @@ export default function LabelDiagram() {
     setDiagramIdx(idx);
     setAnswers(diagrams[idx].labels.map(() => ({ value: "", checked: false, correct: false })));
     setShowHints(false);
+    setImageRevealed(false);
     setPhase("play");
   };
 
@@ -66,6 +68,8 @@ export default function LabelDiagram() {
     const allCorrect = answers.every((a, i) => isCorrect(a.value, diagram.labels[i]));
     if (allCorrect) {
       setTimeout(() => setPhase("done"), 800);
+    } else {
+      setImageRevealed(true);
     }
   };
 
@@ -77,6 +81,7 @@ export default function LabelDiagram() {
   const retry = () => {
     setAnswers(diagram.labels.map(() => ({ value: "", checked: false, correct: false })));
     setShowHints(false);
+    setImageRevealed(false);
     setTimeout(() => inputRefs.current[0]?.focus(), 100);
   };
 
@@ -115,7 +120,7 @@ export default function LabelDiagram() {
               <div className="text-center space-y-2">
                 <h1 className="text-2xl font-bold text-foreground">Label the Diagram</h1>
                 <p className="text-muted-foreground">
-                  Study the image, then type the name of each numbered part.
+                  The image will be hidden while you answer — no peeking at the labels!
                 </p>
               </div>
               <div className="space-y-2">
@@ -153,16 +158,44 @@ export default function LabelDiagram() {
               <div className="text-center">
                 <h2 className="text-lg font-bold text-foreground">{diagram.title}</h2>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Study the image, then fill in each part name below.
+                  Fill in each numbered part name from memory.
                 </p>
               </div>
 
-              <div className="rounded-xl overflow-hidden border bg-card">
+              <div className="relative rounded-xl overflow-hidden border bg-card">
                 <img
                   src={diagram.imageUrl}
                   alt={diagram.title}
-                  className="w-full object-contain max-h-[340px]"
+                  className={cn(
+                    "w-full object-contain max-h-[340px] transition-all duration-300",
+                    !imageRevealed && "blur-xl scale-105 brightness-75"
+                  )}
                 />
+                {!imageRevealed && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div className="bg-background/90 backdrop-blur-sm rounded-2xl px-5 py-4 text-center shadow-lg border">
+                      <EyeOff className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
+                      <p className="text-sm font-semibold text-foreground">Image hidden</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">Answer from memory first</p>
+                    </div>
+                    <button
+                      onClick={() => setImageRevealed(true)}
+                      className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground bg-background/70 hover:bg-background/90 backdrop-blur-sm px-4 py-2 rounded-full border transition-all"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      Peek (reveals labels)
+                    </button>
+                  </div>
+                )}
+                {imageRevealed && (
+                  <button
+                    onClick={() => setImageRevealed(false)}
+                    className="absolute top-2 right-2 flex items-center gap-1.5 text-xs font-medium bg-background/80 backdrop-blur-sm hover:bg-background/95 px-3 py-1.5 rounded-full border shadow transition-all"
+                  >
+                    <EyeOff className="w-3 h-3" />
+                    Hide
+                  </button>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -276,6 +309,15 @@ export default function LabelDiagram() {
                   You labeled all {total} parts of the {diagram.title}.
                 </p>
               </div>
+
+              <div className="rounded-xl overflow-hidden border shadow-sm">
+                <img
+                  src={diagram.imageUrl}
+                  alt={diagram.title}
+                  className="w-full object-contain"
+                />
+              </div>
+
               <div className="space-y-2 text-left">
                 {diagram.labels.map((label) => (
                   <div
