@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks, ImageIcon } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks, ImageIcon, Star, BriefcaseBusiness } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -162,19 +162,34 @@ export default function Home() {
             </div>
           )}
 
-          <Link href="/review">
-            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/30 bg-primary/5">
-              <CardContent className="p-5 flex items-center gap-4">
-                <div className="p-3 bg-primary/20 text-primary rounded-full shrink-0">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-foreground">Review Mode</h3>
-                  <p className="text-sm text-muted-foreground mt-0.5">Read all {totalSlides} slides in full — start here.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+          <div className="grid grid-cols-2 gap-3">
+            <Link href="/review">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-primary/30 bg-primary/5 h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-primary/20 text-primary rounded-full">
+                    <BookOpen className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Review Book</h3>
+                    <p className="text-xs text-muted-foreground mt-1">All slides — read &amp; highlight</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/my-highlights">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-amber-300/50 bg-amber-50/60 dark:bg-amber-950/20 dark:border-amber-700/40 h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-amber-200/70 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded-full">
+                    <Star className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">My Highlights</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Your starred items &amp; notes</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
 
           <Card className={`transition-colors ${hardMode ? 'border-rose-400/60 bg-gradient-to-br from-rose-50 to-red-50 dark:from-rose-950/30 dark:to-red-950/20 dark:border-rose-600/50' : 'border-border bg-card'}`}>
             <CardContent className="p-5 flex items-center gap-4">
@@ -233,6 +248,27 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-muted-foreground mt-0.5">
                     MUR · Turndown · Bathroom Cleaning · Check-Out — step by step.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/butler-review">
+            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-sky-400/60 bg-gradient-to-br from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/20 dark:border-sky-600/50">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 bg-sky-200/70 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300 rounded-full shrink-0">
+                  <BriefcaseBusiness className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-foreground">Butler Review</h3>
+                    <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-full bg-sky-200/60 dark:bg-sky-900/40">
+                      Script
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Arrival · Check-in · Escorting · Room · Packing · Check-out
                   </p>
                 </div>
               </CardContent>
