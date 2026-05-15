@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks, ImageIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -345,6 +345,19 @@ export default function Home() {
                   <div>
                     <h3 className="font-semibold text-foreground">Mnemonic</h3>
                     <p className="text-xs text-muted-foreground mt-1">Story per fact</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/label-diagram">
+              <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] h-full">
+                <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                  <div className="p-3 bg-muted text-foreground rounded-full">
+                    <ImageIcon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Label Diagram</h3>
+                    <p className="text-xs text-muted-foreground mt-1">Fill in the parts</p>
                   </div>
                 </CardContent>
               </Card>
