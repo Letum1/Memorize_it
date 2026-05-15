@@ -5,11 +5,19 @@ export interface DiagramLabel {
   synonyms?: string[];
 }
 
+export interface MaskRegion {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 export interface Diagram {
   id: string;
   title: string;
   imageUrl: string;
   labels: DiagramLabel[];
+  maskRegions?: MaskRegion[];
 }
 
 export const diagrams: Diagram[] = [
@@ -17,6 +25,18 @@ export const diagrams: Diagram[] = [
     id: "vacuum",
     title: "Vacuum",
     imageUrl: "/diagram-vacuum.jpeg",
+    maskRegions: [
+      { x: 0,  y: 6,  w: 32, h: 6 },
+      { x: 0,  y: 16, w: 32, h: 6 },
+      { x: 0,  y: 26, w: 32, h: 6 },
+      { x: 0,  y: 38, w: 32, h: 6 },
+      { x: 0,  y: 51, w: 32, h: 6 },
+      { x: 0,  y: 63, w: 32, h: 6 },
+      { x: 62, y: 5,  w: 38, h: 6 },
+      { x: 62, y: 18, w: 38, h: 6 },
+      { x: 62, y: 33, w: 38, h: 6 },
+      { x: 62, y: 49, w: 38, h: 6 },
+    ],
     labels: [
       { number: 1, answer: "Handle", hint: "Firm grip for carrying and moving" },
       { number: 2, answer: "Top Cover", hint: "Protects the motor and internal components" },
@@ -34,6 +54,15 @@ export const diagrams: Diagram[] = [
     id: "floor-polisher",
     title: "Floor Polisher",
     imageUrl: "/diagram-floor-polisher.jpeg",
+    maskRegions: [
+      { x: 50, y: 3,  w: 50, h: 14 },
+      { x: 50, y: 20, w: 50, h: 8  },
+      { x: 50, y: 31, w: 50, h: 13 },
+      { x: 50, y: 47, w: 50, h: 9  },
+      { x: 50, y: 59, w: 50, h: 9  },
+      { x: 50, y: 70, w: 50, h: 9  },
+      { x: 50, y: 81, w: 50, h: 8  },
+    ],
     labels: [
       { number: 1, answer: "Operation Control", hint: "Controls the power ON/OFF and operating speed" },
       { number: 2, answer: "Handle Tube", hint: "Provides comfortable grip and control for maneuvering" },
@@ -48,6 +77,15 @@ export const diagrams: Diagram[] = [
     id: "bed",
     title: "The Bed and Its Parts",
     imageUrl: "/diagram-bed.jpeg",
+    maskRegions: [
+      { x: 55, y: 4,  w: 45, h: 8 },
+      { x: 0,  y: 20, w: 40, h: 8 },
+      { x: 55, y: 32, w: 45, h: 8 },
+      { x: 0,  y: 55, w: 40, h: 8 },
+      { x: 55, y: 70, w: 45, h: 8 },
+      { x: 0,  y: 82, w: 40, h: 8 },
+      { x: 55, y: 82, w: 45, h: 8 },
+    ],
     labels: [
       { number: 1, answer: "Headboard", hint: "At the head of the bed; provides back support when sitting up" },
       { number: 2, answer: "Bed Pad", hint: "Extra layer of cushioning; protects the mattress" },
@@ -62,6 +100,13 @@ export const diagrams: Diagram[] = [
     id: "laundry-standard",
     title: "Standard Procedure in Laundry",
     imageUrl: "/diagram-laundry.jpeg",
+    maskRegions: [
+      { x: 5, y: 8,  w: 90, h: 12 },
+      { x: 5, y: 27, w: 90, h: 12 },
+      { x: 5, y: 46, w: 90, h: 12 },
+      { x: 5, y: 63, w: 90, h: 12 },
+      { x: 5, y: 80, w: 90, h: 12 },
+    ],
     labels: [
       { number: 1, answer: "Sorting", hint: "First step — separate items before washing" },
       { number: 2, answer: "Pre-treating Stains", synonyms: ["Pretreating Stains", "Pre treating Stains"], hint: "Treat stains before loading" },

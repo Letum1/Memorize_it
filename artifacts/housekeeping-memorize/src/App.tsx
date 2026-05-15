@@ -17,6 +17,7 @@ import Procedures from "@/pages/procedures";
 import LabelDiagram from "@/pages/label-diagram";
 import MyHighlights from "@/pages/my-highlights";
 import ButlerReview from "@/pages/butler-review";
+import ButlerQuiz from "@/pages/butler-quiz";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function Router() {
       <Route path="/label-diagram" component={LabelDiagram} />
       <Route path="/my-highlights" component={MyHighlights} />
       <Route path="/butler-review" component={ButlerReview} />
+      <Route path="/butler-quiz" component={ButlerQuiz} />
       <Route path="/daily-drill" component={DailyDrill} />
       <Route path="/speed-round" component={SpeedRound} />
       <Route path="/study/:mode" component={Study} />

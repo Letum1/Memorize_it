@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { diagrams, Diagram } from "@/data/diagrams";
+import { diagrams, Diagram, MaskRegion } from "@/data/diagrams";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ImageIcon, RotateCcw, Trophy, Check, X, ChevronRight, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,12 +25,34 @@ interface AnswerState {
   correct: boolean;
 }
 
+function LabelMasks({ regions, visible }: { regions: MaskRegion[]; visible: boolean }) {
+  if (!visible || !regions.length) return null;
+  return (
+    <>
+      {regions.map((r, i) => (
+        <div
+          key={i}
+          className="absolute pointer-events-none"
+          style={{
+            left: `${r.x}%`,
+            top: `${r.y}%`,
+            width: `${r.w}%`,
+            height: `${r.h}%`,
+            background: "rgba(120, 0, 0, 0.78)",
+            borderRadius: "4px",
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
 export default function LabelDiagram() {
   const [phase, setPhase] = useState<Phase>("pick");
   const [diagramIdx, setDiagramIdx] = useState(0);
   const [answers, setAnswers] = useState<AnswerState[]>([]);
   const [showHints, setShowHints] = useState(false);
-  const [imageRevealed, setImageRevealed] = useState(false);
+  const [labelsHidden, setLabelsHidden] = useState(true);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const diagram: Diagram = diagrams[diagramIdx];
@@ -39,7 +61,7 @@ export default function LabelDiagram() {
     setDiagramIdx(idx);
     setAnswers(diagrams[idx].labels.map(() => ({ value: "", checked: false, correct: false })));
     setShowHints(false);
-    setImageRevealed(false);
+    setLabelsHidden(true);
     setPhase("play");
   };
 
@@ -58,18 +80,17 @@ export default function LabelDiagram() {
   };
 
   const checkAll = () => {
-    setAnswers((prev) =>
-      prev.map((a, i) => ({
-        ...a,
-        checked: true,
-        correct: isCorrect(a.value, diagram.labels[i]),
-      }))
-    );
-    const allCorrect = answers.every((a, i) => isCorrect(a.value, diagram.labels[i]));
+    const next = answers.map((a, i) => ({
+      ...a,
+      checked: true,
+      correct: isCorrect(a.value, diagram.labels[i]),
+    }));
+    setAnswers(next);
+    const allCorrect = next.every((a) => a.correct);
     if (allCorrect) {
       setTimeout(() => setPhase("done"), 800);
     } else {
-      setImageRevealed(true);
+      setLabelsHidden(false);
     }
   };
 
@@ -81,9 +102,11 @@ export default function LabelDiagram() {
   const retry = () => {
     setAnswers(diagram.labels.map(() => ({ value: "", checked: false, correct: false })));
     setShowHints(false);
-    setImageRevealed(false);
+    setLabelsHidden(true);
     setTimeout(() => inputRefs.current[0]?.focus(), 100);
   };
+
+  const hasMasks = (diagram.maskRegions ?? []).length > 0;
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
@@ -120,7 +143,7 @@ export default function LabelDiagram() {
               <div className="text-center space-y-2">
                 <h1 className="text-2xl font-bold text-foreground">Label the Diagram</h1>
                 <p className="text-muted-foreground">
-                  The image will be hidden while you answer — no peeking at the labels!
+                  The label text on the image will be hidden — answer from memory!
                 </p>
               </div>
               <div className="space-y-2">
@@ -166,37 +189,30 @@ export default function LabelDiagram() {
                 <img
                   src={diagram.imageUrl}
                   alt={diagram.title}
-                  className={cn(
-                    "w-full object-contain max-h-[340px] transition-all duration-300",
-                    !imageRevealed && "blur-xl scale-105 brightness-75"
-                  )}
+                  className="w-full h-auto block"
                 />
-                {!imageRevealed && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                    <div className="bg-background/90 backdrop-blur-sm rounded-2xl px-5 py-4 text-center shadow-lg border">
-                      <EyeOff className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-sm font-semibold text-foreground">Image hidden</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">Answer from memory first</p>
-                    </div>
-                    <button
-                      onClick={() => setImageRevealed(true)}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground bg-background/70 hover:bg-background/90 backdrop-blur-sm px-4 py-2 rounded-full border transition-all"
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                      Peek (reveals labels)
-                    </button>
-                  </div>
+                {hasMasks && (
+                  <LabelMasks regions={diagram.maskRegions!} visible={labelsHidden} />
                 )}
-                {imageRevealed && (
+                {hasMasks && (
                   <button
-                    onClick={() => setImageRevealed(false)}
-                    className="absolute top-2 right-2 flex items-center gap-1.5 text-xs font-medium bg-background/80 backdrop-blur-sm hover:bg-background/95 px-3 py-1.5 rounded-full border shadow transition-all"
+                    onClick={() => setLabelsHidden((v) => !v)}
+                    className="absolute top-2 right-2 flex items-center gap-1.5 text-xs font-semibold bg-background/85 backdrop-blur-sm hover:bg-background px-3 py-1.5 rounded-full border shadow transition-all"
                   >
-                    <EyeOff className="w-3 h-3" />
-                    Hide
+                    {labelsHidden ? (
+                      <><Eye className="w-3 h-3" /> Peek at labels</>
+                    ) : (
+                      <><EyeOff className="w-3 h-3" /> Hide labels</>
+                    )}
                   </button>
                 )}
               </div>
+
+              {hasMasks && labelsHidden && (
+                <p className="text-center text-xs text-muted-foreground">
+                  Label text is covered — tap <strong>Peek at labels</strong> if you need a hint.
+                </p>
+              )}
 
               <div className="space-y-2">
                 {diagram.labels.map((label, i) => {
@@ -310,11 +326,11 @@ export default function LabelDiagram() {
                 </p>
               </div>
 
-              <div className="rounded-xl overflow-hidden border shadow-sm">
+              <div className="relative rounded-xl overflow-hidden border shadow-sm">
                 <img
                   src={diagram.imageUrl}
                   alt={diagram.title}
-                  className="w-full object-contain"
+                  className="w-full h-auto block"
                 />
               </div>
 

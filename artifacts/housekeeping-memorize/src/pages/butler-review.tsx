@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Settings2, Eye, EyeOff, RotateCcw, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, Settings2, Eye, EyeOff, RotateCcw, Dumbbell } from "lucide-react";
 
 const STORAGE_KEY = "butler-names-v1";
 
@@ -251,6 +251,12 @@ export default function ButlerReview() {
               {names.butlerName} · {names.hotelName}
             </p>
           </div>
+          <Link href="/butler-quiz">
+            <button className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition-colors">
+              <Dumbbell className="w-3.5 h-3.5" />
+              Quiz Me
+            </button>
+          </Link>
           <button
             onClick={() => setShowSettings((v) => !v)}
             className={`p-2 rounded-full transition-colors ${showSettings ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
