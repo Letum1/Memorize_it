@@ -426,4 +426,33 @@ export const slideNotes: SlideNote[] = [
       { label: "Close the window and spray air freshener." },
     ],
   },
+  {
+    slideNum: 25,
+    title: "Laundry Procedures",
+    groups: [
+      {
+        heading: "Standard Procedure in Laundry",
+        items: [
+          { label: "Sorting", sub: ["Separate items before washing."] },
+          { label: "Pre-treating Stains", sub: ["Treat stains before loading."] },
+          { label: "Loading", sub: ["Place items into the machine."] },
+          { label: "Selecting Detergent", sub: ["Choose the right cleaning agent."] },
+          { label: "Drying and Finishing", sub: ["Dry and finish the laundry."] },
+        ],
+      },
+      {
+        heading: "Washing Procedure for Washing Machine",
+        items: [
+          { label: "Sort laundry" },
+          { label: "Check labels and pockets" },
+          { label: "Pretreat stains" },
+          { label: "Load the washer" },
+          { label: "Add detergent & fabric conditioner" },
+          { label: "Select cycle & temperature" },
+          { label: "Dry clothes" },
+          { label: "Fold and store" },
+        ],
+      },
+    ],
+  },
 ];
