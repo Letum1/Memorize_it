@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks, ImageIcon, Star, BriefcaseBusiness } from "lucide-react";
+import { Brain, Layers, Type, Target, RotateCcw, BookOpen, GraduationCap, Link2, Grid3x3, Sparkles, Flame, CalendarCheck, Zap, Trophy, Skull, ListChecks, ImageIcon, Star, BriefcaseBusiness, MessageSquareText } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -269,6 +269,27 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-muted-foreground mt-0.5">
                     Arrival · Check-in · Escorting · Room · Packing · Check-out
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/oral-questions">
+            <Card className="hover-elevate-2 cursor-pointer transition-colors active:scale-[0.98] border-rose-400/60 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-950/30 dark:to-pink-950/20 dark:border-rose-600/50">
+              <CardContent className="p-5 flex items-center gap-4">
+                <div className="p-3 bg-rose-200/70 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 rounded-full shrink-0">
+                  <MessageSquareText className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-foreground">Oral Questioning</h3>
+                    <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded-full bg-rose-200/60 dark:bg-rose-900/40">
+                      20 Qs
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    HK NC II Batch 8 — review &amp; self-quiz all oral questions
                   </p>
                 </div>
               </CardContent>
