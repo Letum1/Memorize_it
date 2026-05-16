@@ -8,7 +8,7 @@ export interface ButlerNames {
 }
 
 export const DEFAULTS: ButlerNames = {
-  butlerName: "Jessica",
+  butlerName: "Clyde",
   guestName: "Cresel",
   guestCity: "Taguig City",
   hotelName: "TMTC Hotel",
@@ -30,7 +30,7 @@ export function saveNames(names: ButlerNames) {
   } catch {}
 }
 
-export type Role = "butler" | "guest" | "note";
+export type Role = "butler" | "receptionist" | "guest" | "note";
 
 export interface Line {
   role: Role;
@@ -58,21 +58,22 @@ export function buildScript(n: ButlerNames): Scene[] {
       ],
     },
     {
+      // In this scene the actor switches to the Receptionist role at the front desk
       title: "Front Desk Check-In",
       lines: [
-        { role: "butler", text: `Good morning, Ma'am. Welcome to ${hotel}. How may I assist you?` },
+        { role: "receptionist", text: `Good morning, Ma'am. Welcome to ${hotel}. How may I assist you?` },
         { role: "guest", text: "Good morning. I would like to check in." },
-        { role: "butler", text: "Certainly, Ma'am. May I have your name, please?" },
+        { role: "receptionist", text: "Certainly, Ma'am. May I have your name, please?" },
         { role: "guest", text: `My name is ${g}${city ? ` from ${city}` : ""}.` },
-        { role: "butler", text: `One moment, please… Mrs. ${g}, I can see your reservation here. You have booked one Junior Deluxe Room for tonight.` },
+        { role: "receptionist", text: `One moment, please… Mrs. ${g}, I can see your reservation here. You have booked one Junior Deluxe Room for tonight.` },
         { role: "guest", text: "Yes, that's correct." },
-        { role: "butler", text: "May I please see a valid ID?" },
+        { role: "receptionist", text: "May I please see a valid ID?" },
         { role: "guest", text: "Of course." },
-        { role: "note", text: "(Hand ID to the receptionist)" },
-        { role: "butler", text: "Thank you, Ma'am. Kindly sign here and write your contact number." },
-        { role: "butler", text: `Mrs. ${g}, your room number is 106. Here is your key card, along with your ID and your breakfast voucher for two persons. Breakfast is served tomorrow morning. Is there anything else I may assist you with?` },
+        { role: "note", text: "(Guest hands ID to the receptionist)" },
+        { role: "receptionist", text: "Thank you, Ma'am. Kindly sign here and write your contact number." },
+        { role: "receptionist", text: `Mrs. ${g}, your room number is 106. Here is your key card, along with your ID and your breakfast voucher for two persons. Breakfast is served tomorrow morning. Is there anything else I may assist you with?` },
         { role: "guest", text: "No, thank you." },
-        { role: "butler", text: "Our butler will now escort you to your room. We hope you enjoy your stay. Please dial 103 if you need any assistance." },
+        { role: "receptionist", text: `Our butler will now escort you to your room. We hope you enjoy your stay. Please dial 103 if you need any assistance.` },
       ],
     },
     {
@@ -116,12 +117,13 @@ export function buildScript(n: ButlerNames): Scene[] {
       ],
     },
     {
+      // Actor plays Butler first (escorts guest to desk), then switches to Receptionist role
       title: "Check-Out at the Front Desk",
       lines: [
         { role: "butler", text: "Ma'am, our guest is here for checking out." },
-        { role: "butler", text: "Good morning, Ma'am. Are you checking out today?" },
+        { role: "receptionist", text: "Good morning, Ma'am. Are you checking out today?" },
         { role: "guest", text: "Yes, I am. I would like to check out, please." },
-        { role: "butler", text: "Thank you for staying with us. We look forward to welcoming you again. Have a wonderful day!" },
+        { role: "receptionist", text: `Thank you for staying with us. We look forward to welcoming you again. Have a wonderful day!` },
         { role: "guest", text: "Thank you. I really enjoyed my stay. I'll definitely come back." },
       ],
     },
@@ -133,6 +135,7 @@ export interface QuizItem {
   cueText: string;
   promptWords: string;
   fullLine: string;
+  role: Role;
 }
 
 export function buildQuizItems(script: Scene[]): QuizItem[] {
@@ -140,18 +143,20 @@ export function buildQuizItems(script: Scene[]): QuizItem[] {
   for (const scene of script) {
     for (let i = 0; i < scene.lines.length; i++) {
       const line = scene.lines[i];
-      if (line.role !== "butler") continue;
+      if (line.role !== "butler" && line.role !== "receptionist") continue;
       const prev = scene.lines[i - 1];
       const cueText = prev
         ? prev.role === "guest"
           ? `Guest: "${prev.text}"`
           : prev.role === "note"
           ? prev.text
-          : `Butler: "${prev.text}"`
+          : prev.role === "butler"
+          ? `Butler: "${prev.text}"`
+          : `Receptionist: "${prev.text}"`
         : "Start of scene";
       const words = line.text.split(" ");
       const promptWords = words.slice(0, Math.min(4, Math.ceil(words.length * 0.25))).join(" ");
-      items.push({ sceneTitle: scene.title, cueText, promptWords, fullLine: line.text });
+      items.push({ sceneTitle: scene.title, cueText, promptWords, fullLine: line.text, role: line.role });
     }
   }
   return items;

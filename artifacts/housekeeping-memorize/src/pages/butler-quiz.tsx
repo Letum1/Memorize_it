@@ -2,7 +2,7 @@ import { useState, useMemo, useRef } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, BriefcaseBusiness, CheckCircle2, XCircle, RotateCcw, Trophy, Eye } from "lucide-react";
-import { loadNames, buildScript, buildQuizItems, QuizItem } from "@/lib/butlerScript";
+import { loadNames, buildScript, buildQuizItems, QuizItem, Role } from "@/lib/butlerScript";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -161,9 +161,13 @@ export default function ButlerQuiz() {
                   <p className="text-xs text-muted-foreground italic leading-snug">{current.cueText}</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="text-lg shrink-0">🫡</span>
+                  <span className="text-lg shrink-0">{current.role === "receptionist" ? "🗂️" : "🫡"}</span>
                   <p className="text-sm font-semibold text-foreground leading-snug">
-                    {names.butlerName}:{" "}
+                    {names.butlerName}{" "}
+                    <span className={`text-[11px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full ${current.role === "receptionist" ? "bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300" : "bg-sky-100 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300"}`}>
+                      {current.role === "receptionist" ? "Receptionist" : "Butler"}
+                    </span>
+                    {": "}
                     <span className="text-sky-700 dark:text-sky-300">"{current.promptWords}…"</span>
                   </p>
                 </div>
