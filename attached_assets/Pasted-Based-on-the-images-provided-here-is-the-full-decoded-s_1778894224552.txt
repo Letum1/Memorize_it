@@ -1,0 +1,48 @@
+Based on the images provided, here is the full decoded script for the hotel service simulation at TMTC Hotel.
+## **ARRIVAL OF THE GUEST**
+**Butler (JESSICA):** Good morning, Ma’am. Welcome to TMTC Hotel. My name is Jessica, your butler for today. May I assist you with your luggage?
+**Guest (CRESEL):** Yes, please.
+**Butler (JESSICA):** Thank you, Ma’am. Please allow me to escort you to the front desk for your check-in.
+## **FRONT DESK CHECKING-IN**
+**Receptionist (JESSICA):** Good morning, Ma’am. Welcome to TMTC Hotel. How may I assist you?
+**Guest (CRESEL):** Good morning. I would like to check in.
+**Receptionist (JESSICA):** Certainly, Ma’am. May I have your name, please?
+**Guest (CRESEL):** My name is Creselda Dimabayao from Taguig City.
+**Receptionist (JESSICA):** One moment, please… Mrs. Dimabayao, I can see your reservation here. You have booked one Junior Deluxe Room for tonight.
+**Guest (CRESEL):** Yes, that’s correct.
+**Receptionist (JESSICA):** May I please see a valid ID?
+**Guest (CRESEL):** Of course. (Give the ID to the receptionist)
+**Receptionist (JESSICA):** Thank you, Ma’am. Kindly sign here and write your contact number.
+**Receptionist (JESSICA):** Mrs. Dimabayao, your room number is 106. Here is your key card, along with your ID and your breakfast voucher for two persons. Breakfast is served tomorrow morning. Is there anything else I may assist you with?
+**Guest (CRESEL):** No, thank you.
+**Receptionist (JESSICA):** Our butler will now escort you to your room. We hope you enjoy your stay. Please dial 103 if you need any assistance.
+## **AFTER CHECKING-IN (ESCORTING)**
+**Butler (JESSICA):** Ma'am, please allow me to escort you to your room.
+**Butler (JESSICA):** Before we arrive, allow me to briefly introduce our hotel facilities. Breakfast is served from 6:00 AM to 10:00 AM at the lobby restaurant. The cafe and business center are located in the lobby, while the meeting rooms are on the 2nd floor. Our pool, spa, and gym are located on the 5th floor. Please let me know if you would like assistance with reservations.
+**Guest (CRESEL):** Thank you for the information. I appreciate it.
+## **ROOM FAMILIARIZATION**
+**Butler (JESSICA):** We are now in front of your room, Ma'am. May I have your key card?
+*(Enters room)*
+**Butler (JESSICA):** Please have a seat, Ma'am. *(places luggage on rack)*
+**Butler (JESSICA):** Allow me to introduce your room facilities. The room is equipped with a safety deposit box, minibar, television with remote control, telephone with a dedicated service line, air conditioning, and a bedside lamp. The bathroom includes hot and cold shower controls.
+**Guest (CRESEL):** Thank you. That's very helpful.
+## **UNPACKING OF CLOTHES**
+**Butler (JESSICA):** Ma'am, would you like me to assist you with unpacking your clothes?
+**Guest (CRESEL):** Yes, please.
+**Butler (JESSICA):** Your clothes have been neatly arranged in the wardrobe. Is there anything else I may assist you with?
+**Guest (CRESEL):** No, that's all.
+**Butler (JESSICA):** Thank you, Ma'am. May I take my leave?
+**Guest (CRESEL):** Sure, you can leave now. Thank you!
+## **PACKING OF CLOTHES (UPON REQUEST)**
+**Butler (JESSICA):** *(knocks the door 3x)* butler service.
+**Guest (CRESEL):** Please come in.
+**Butler (JESSICA):** Ma'am, I understand that you requested assistance with packing your belongings.
+**Guest (CRESEL):** Yes, that's correct. I would appreciate your assistance.
+**Butler (JESSICA):** Your belongings are now packed and ready. May I assist you to the front desk for check-out?
+**Guest (CRESEL):** Yes, please.
+## **CHECKING OUT TO THE FRONT DESK**
+**Butler (JESSICA):** Ma'am, our guest is here for checking out.
+**Receptionist (JESSICA):** Good morning, Ma'am. Are you checking out today?
+**Guest (CRESEL):** Yes, I am. I would like to check out, please.
+**Receptionist (JESSICA):** Thank you for staying with us. We look forward to welcoming you again. Have a wonderful day!
+**Guest (CRESEL):** Thank you. I really enjoyed my stay. I'll definitely come back.
