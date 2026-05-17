@@ -11,14 +11,18 @@ function SettingsPanel({ names, onChange, onClose }: {
 }) {
   const [draft, setDraft] = useState(names);
 
-  function field(key: keyof ButlerNames, label: string, placeholder: string) {
+  function field(key: keyof ButlerNames, label: string, placeholder: string, disabled = false) {
+    const val = draft[key];
     return (
       <div className="space-y-1">
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</label>
+        <label className={`text-xs font-semibold uppercase tracking-wider ${disabled ? "text-muted-foreground/60" : "text-muted-foreground"}`}>
+          {label}
+        </label>
         <input
-          className="w-full border rounded-xl px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-          value={draft[key]}
+          className={`w-full border rounded-xl px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+          value={typeof val === "string" ? val : ""}
           placeholder={placeholder}
+          disabled={disabled}
           onChange={(e) => setDraft((prev) => ({ ...prev, [key]: e.target.value }))}
         />
       </div>
@@ -32,14 +36,54 @@ function SettingsPanel({ names, onChange, onClose }: {
       exit={{ opacity: 0, y: -8 }}
       className="rounded-2xl border bg-card shadow-lg p-5 space-y-4"
     >
-      <h2 className="font-semibold text-foreground">Customize Names</h2>
-      {field("butlerName", "Butler / Receptionist Name (same actor)", "e.g. Clyde")}
-      {field("guestName", "Guest Name", "e.g. Cresel")}
-      {field("guestCity", "Guest's City", "e.g. Taguig City")}
-      {field("hotelName", "Hotel Name", "e.g. TMTC Hotel")}
-      <p className="text-xs text-muted-foreground">
-        The same actor plays both the Butler and Receptionist roles. The label next to their name will change depending on which role they are performing in each scene.
-      </p>
+      <h2 className="font-semibold text-foreground">Customize Script</h2>
+
+      {/* Guest Gender */}
+      <div className="space-y-1">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Guest Gender</label>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setDraft((p) => ({ ...p, guestGender: "female" }))}
+            className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition-colors ${draft.guestGender === "female" ? "bg-violet-600 text-white border-violet-600" : "border-border text-muted-foreground hover:text-foreground"}`}
+          >
+            Female 👩 (Ma'am / Mrs.)
+          </button>
+          <button
+            onClick={() => setDraft((p) => ({ ...p, guestGender: "male" }))}
+            className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition-colors ${draft.guestGender === "male" ? "bg-violet-600 text-white border-violet-600" : "border-border text-muted-foreground hover:text-foreground"}`}
+          >
+            Male 👨 (Sir / Mr.)
+          </button>
+        </div>
+      </div>
+
+      {/* Same Actor toggle */}
+      <div className="flex items-center justify-between py-1">
+        <div>
+          <p className="text-sm font-semibold text-foreground">Same Actor for Butler & Receptionist</p>
+          <p className="text-xs text-muted-foreground">
+            {draft.sameActor ? "One person plays both roles (like the real assessment)." : "Different actors for Butler and Receptionist."}
+          </p>
+        </div>
+        <button
+          onClick={() => setDraft((p) => ({ ...p, sameActor: !p.sameActor }))}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${draft.sameActor ? "bg-primary" : "bg-muted"}`}
+        >
+          <span
+            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${draft.sameActor ? "translate-x-6" : "translate-x-1"}`}
+          />
+        </button>
+      </div>
+
+      {/* Name fields */}
+      <div className="space-y-3">
+        {field("butlerName", "Butler Name", "e.g. Clyde")}
+        {field("receptionistName", "Receptionist Name", draft.sameActor ? "Same as Butler (auto)" : "e.g. Jessica", draft.sameActor)}
+        {field("guestName", "Guest Name", "e.g. Cresel")}
+        {field("guestCity", "Guest's City", "e.g. Taguig City")}
+        {field("hotelName", "Hotel Name", "e.g. TMTC Hotel")}
+      </div>
+
       <div className="flex gap-2 pt-1">
         <button
           className="flex-1 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
@@ -72,16 +116,16 @@ const ROLE_LABEL_COLORS: Record<Role, string> = {
   note: "text-muted-foreground",
 };
 
-function getRoleLabel(role: Role, name: string): string {
-  if (role === "butler") return `${name} (Butler)`;
-  if (role === "receptionist") return `${name} (Receptionist)`;
-  return name;
-}
-
 function getRoleEmoji(role: Role): string {
   if (role === "butler") return "🫡";
   if (role === "receptionist") return "🗂️";
   if (role === "guest") return "🙋";
+  return "";
+}
+
+function getActorName(role: Role, names: ButlerNames): string {
+  if (role === "butler") return names.butlerName;
+  if (role === "receptionist") return names.sameActor ? names.butlerName : names.receptionistName;
   return "";
 }
 
@@ -138,7 +182,8 @@ export default function ButlerReview() {
           <div className="flex-1">
             <h1 className="text-xl font-bold tracking-tight">Butler Service Review</h1>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {names.butlerName} · {names.hotelName}
+              {names.guestGender === "male" ? "Sir" : "Ma'am"} · {names.hotelName}
+              {names.sameActor ? " · Same Actor" : " · Different Actors"}
             </p>
           </div>
           <Link href="/butler-quiz">
@@ -168,13 +213,13 @@ export default function ButlerReview() {
         {/* Role legend */}
         <div className="flex items-center gap-3 flex-wrap text-xs">
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-50 dark:bg-sky-950/30 border border-sky-200/70 dark:border-sky-700/40 text-sky-700 dark:text-sky-300 font-semibold">
-            🫡 {names.butlerName} (Butler)
+            {getRoleEmoji("butler")} {names.butlerName} (Butler)
           </span>
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-700/40 text-amber-700 dark:text-amber-300 font-semibold">
-            🗂️ {names.butlerName} (Receptionist)
+            {getRoleEmoji("receptionist")} {names.sameActor ? names.butlerName : names.receptionistName} (Receptionist)
           </span>
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-50 dark:bg-violet-950/30 border border-violet-200/70 dark:border-violet-700/40 text-violet-700 dark:text-violet-300 font-semibold">
-            🙋 {names.guestName} (Guest)
+            {getRoleEmoji("guest")} {names.guestName} (Guest)
           </span>
         </div>
 
@@ -215,7 +260,7 @@ export default function ButlerReview() {
           <div className="flex items-center gap-3 text-xs text-muted-foreground bg-sky-50 dark:bg-sky-950/20 border border-sky-200/60 dark:border-sky-800/40 rounded-xl px-4 py-2.5">
             <Eye className="w-4 h-4 text-sky-500 shrink-0" />
             <span>
-              {names.butlerName}'s lines (Butler & Receptionist) are hidden — tap each to reveal. Recite it first, then check.
+              Actor lines are hidden — tap each to reveal. Recite it first, then check.
               <span className="font-semibold text-sky-700 dark:text-sky-300 ml-1">
                 {revealedCount}/{actorLineCount} revealed
               </span>
@@ -236,13 +281,14 @@ export default function ButlerReview() {
               const isActorLine = line.role === "butler" || line.role === "receptionist";
               const isHidden = practiceMode && isActorLine && !revealed.has(i);
 
+              const actorName = getActorName(line.role, names);
               const roleLabel =
                 line.role === "butler"
-                  ? getRoleLabel("butler", names.butlerName)
+                  ? `${actorName} (Butler)`
                   : line.role === "receptionist"
-                  ? getRoleLabel("receptionist", names.butlerName)
+                  ? `${actorName} (Receptionist)`
                   : line.role === "guest"
-                  ? names.guestName
+                  ? `${names.guestName} (Guest)`
                   : null;
 
               return (
