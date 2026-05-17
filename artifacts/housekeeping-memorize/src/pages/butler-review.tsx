@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Settings2, Eye, EyeOff, RotateCcw, Dumbbell } from "lucide-react";
-import { loadNames, saveNames, buildScript, ButlerNames, Role } from "@/lib/butlerScript";
+import { loadNames, saveNames, buildScript, hasConfiguredNames, ButlerNames, Role } from "@/lib/butlerScript";
 
 function SettingsPanel({ names, onChange, onClose }: {
   names: ButlerNames;
@@ -131,7 +131,7 @@ function getActorName(role: Role, names: ButlerNames): string {
 
 export default function ButlerReview() {
   const [names, setNames] = useState<ButlerNames>(loadNames);
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState(!hasConfiguredNames());
   const [sceneIdx, setSceneIdx] = useState(0);
   const [practiceMode, setPracticeMode] = useState(false);
   const [revealed, setRevealed] = useState<Set<number>>(new Set());

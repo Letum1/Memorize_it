@@ -11,11 +11,11 @@ export interface ButlerNames {
 }
 
 export const DEFAULTS: ButlerNames = {
-  butlerName: "Clyde",
-  receptionistName: "Clyde",
-  guestName: "Cresel",
-  guestCity: "Taguig City",
-  hotelName: "TMTC Hotel",
+  butlerName: "",
+  receptionistName: "",
+  guestName: "",
+  guestCity: "",
+  hotelName: "",
   sameActor: true,
   guestGender: "female",
 };
@@ -39,6 +39,11 @@ export function loadNames(): ButlerNames {
   } catch {
     return DEFAULTS;
   }
+}
+
+export function hasConfiguredNames(): boolean {
+  const names = loadNames();
+  return names.butlerName.trim() !== "" && names.guestName.trim() !== "";
 }
 
 export function saveNames(names: ButlerNames) {

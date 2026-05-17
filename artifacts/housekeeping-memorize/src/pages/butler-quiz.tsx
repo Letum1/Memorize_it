@@ -2,7 +2,7 @@ import { useState, useMemo, useRef } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, BriefcaseBusiness, CheckCircle2, XCircle, RotateCcw, Trophy, Eye } from "lucide-react";
-import { loadNames, buildScript, buildQuizItems, QuizItem, Role, ButlerNames } from "@/lib/butlerScript";
+import { loadNames, buildScript, buildQuizItems, hasConfiguredNames, QuizItem, Role, ButlerNames } from "@/lib/butlerScript";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -31,6 +31,13 @@ function actorNameForRole(role: Role, names: ButlerNames): string {
 
 export default function ButlerQuiz() {
   const names = useMemo(() => loadNames(), []);
+
+  // If names aren't configured, redirect to the review page where the settings panel auto-opens
+  if (!hasConfiguredNames()) {
+    window.location.href = "/butler-review";
+    return null;
+  }
+
   const allItems = useMemo(() => {
     const script = buildScript(names);
     return buildQuizItems(script);
